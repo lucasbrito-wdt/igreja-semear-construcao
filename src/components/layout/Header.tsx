@@ -1,5 +1,6 @@
 import { BrandMark } from "./BrandMark";
 import { TransitionLink } from "@/components/fx/TransitionLink";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 import styles from "./Header.module.css";
 
 const NAV_ITEMS = [
@@ -30,9 +31,28 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <TransitionLink href="/doar" className={`smLift smCta ${styles.cta}`} data-fx="magnetic">
-          Quero doar
-        </TransitionLink>
+        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <TrackedLink
+            href="/doador"
+            ctaId="header_portal"
+            ctaLabel="Portal do Doador"
+            ctaLocation="header"
+            className="smUl"
+            style={{ fontSize: "12px", fontWeight: "bold", textTransform: "uppercase" }}
+          >
+            Portal do Doador
+          </TrackedLink>
+          <TrackedLink
+            href="/doar"
+            ctaId="header_doar"
+            ctaLabel="Quero doar"
+            ctaLocation="header"
+            className={`smLift smCta ${styles.cta}`}
+            data-fx="magnetic"
+          >
+            Quero doar
+          </TrackedLink>
+        </div>
       </div>
       <div className={styles.progress} data-fx="reading-progress" />
     </header>
