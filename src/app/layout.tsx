@@ -13,6 +13,8 @@ const archivo = Archivo({
   display: "swap",
 });
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const heroDescription =
   "O novo templo da Igreja Semear já tem terreno e fundação prontos. Agora é a estrutura que sobe — pilares, lajes e a cobertura do auditório — e é o que a sua doação constrói. 1.500 lugares, salas próprias para as crianças e um espaço aberto ao bairro de segunda a sábado.";
@@ -21,6 +23,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Cada tijolo é uma semente | Igreja Semear",
   description: heroDescription,
+  alternates: { canonical: siteUrl },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/images/logo-mark.png",
   },
@@ -48,6 +62,20 @@ export const viewport: Viewport = {
   themeColor: "#0e8a7d",
 };
 
+// Organization Schema Markup
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Igreja Semear",
+  url: siteUrl,
+  logo: `${siteUrl}/images/logo-mark.png`,
+  description: heroDescription,
+  sameAs: [
+    "https://www.instagram.com/igrejasemear/",
+    "https://www.youtube.com/c/IgrejaSemear"
+  ]
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={archivo.variable}>
@@ -59,6 +87,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
           <Footer />
         </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
       </body>
     </html>
   );

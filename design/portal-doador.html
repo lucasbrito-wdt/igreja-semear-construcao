@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Semear — Mockup: Portal do Doador</title>
+<style>
+:root{
+  --ink:#1a1815; --ground:#f6f3ee; --sand:#e9e4da;
+  --teal:#0e8a7d; --teal-deep:#0a5f57; --teal-lit:#4fd6c4;
+  --line:#d6d0c6; --mute:#6b6560; --body-c:#3f3b36; --erro:#a8341c;
+  --gut:clamp(16px,3.6vw,34px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+img,svg{max-width:100%;display:block}
+button,input{font-family:inherit;-webkit-tap-highlight-color:rgba(14,138,125,.16)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+::selection{background:#bfe4de}
+
+.page{max-width:1000px;margin:0 auto;padding:clamp(28px,5vw,56px) var(--gut) clamp(60px,8vw,110px)}
+.intro{margin-bottom:clamp(30px,4vw,48px)}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.eyebrow span.bar{width:40px;height:2px;background:var(--teal);display:block;flex:none}
+.eyebrow span.txt{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--teal-deep)}
+.intro h1{margin:0;font-size:clamp(26px,3.6vw,42px);line-height:1.02;font-weight:900;letter-spacing:-.03em}
+.intro p{margin:16px 0 0;max-width:640px;font-size:15px;line-height:1.6;color:var(--body-c)}
+
+.variant{margin-top:clamp(36px,5vw,56px);border:2px solid var(--ink);background:var(--ground)}
+.state-bar{background:var(--ink);color:var(--ground);padding:15px 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px}
+.state-bar .label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.16em}
+
+.box{padding:clamp(24px, 4vw, 48px)}
+
+/* Login State */
+.login-wrap{max-width:380px;margin:0 auto;text-align:center}
+.login-title{font-size:24px;font-weight:900;letter-spacing:-.02em;margin:0 0 12px}
+.login-desc{font-size:14px;color:var(--body-c);line-height:1.5;margin:0 0 32px}
+.field{margin-bottom:20px;text-align:left}
+.field input{border:2px solid var(--ink);padding:16px;font-size:15px;background:var(--ground);outline:none;width:100%;min-height:52px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--ground);border:0;min-height:56px;padding:0 24px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;width:100%}
+.btn:hover{background:#000}
+
+/* Loading State */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;text-align:center}
+.dots{display:inline-flex;gap:6px;margin-bottom:20px}
+.dots i{width:10px;height:10px;background:var(--teal);display:block;border-radius:0;animation:dotPulse 1.1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.16s}
+.dots i:nth-child(3){animation-delay:.32s}
+@keyframes dotPulse{0%,100%{opacity:.2}50%{opacity:1}}
+.loading-title{font-size:16px;font-weight:800;letter-spacing:-.01em;margin:0;color:var(--ink)}
+
+/* Dashboard State */
+.dash-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.dash-title{font-size:28px;font-weight:900;letter-spacing:-.03em;margin:0}
+.dash-user{font-size:13px;font-weight:700;color:var(--mute);margin:0}
+.dash-user span{color:var(--teal-deep);font-weight:800}
+
+.donation-list{display:flex;flex-direction:column;gap:16px}
+.donation-card{border:2px solid var(--ink);background:var(--sand);padding:24px;display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:640px){
+  .donation-card{grid-template-columns:1.5fr 1fr 1fr auto;align-items:center}
+}
+.don-meta{display:flex;flex-direction:column;gap:6px}
+.don-id{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--mute)}
+.don-date{font-size:15px;font-weight:700;color:var(--ink)}
+
+.don-val-wrap{display:flex;flex-direction:column;gap:4px}
+.don-val{font-size:18px;font-weight:900;letter-spacing:-.02em}
+.don-freq{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--mute)}
+
+.don-status-wrap{display:flex;align-items:flex-start}
+.badge{display:inline-flex;padding:6px 10px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.15em}
+.badge-ok{background:var(--teal-lit);color:var(--teal-deep)}
+.badge-warn{background:#e0d8c8;color:var(--mute)}
+.badge-err{background:#ebd5d1;color:var(--erro)}
+
+.don-action{display:flex;justify-content:flex-start}
+@media(min-width:640px){
+  .don-action{justify-content:flex-end}
+}
+.btn-cancelar{background:transparent;border:2px solid var(--erro);color:var(--erro);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:all 0.15s ease}
+.btn-cancelar:hover{background:var(--erro);color:var(--ground)}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="intro">
+    <div class="eyebrow"><span class="bar"></span><span class="txt">Mockup — Portal</span></div>
+    <h1>Portal do Doador</h1>
+    <p>Os três estados principais do Portal do Doador: fluxo de login por link mágico, tela de carregamento (callback de autenticação) e painel principal listando doações e permitindo o cancelamento de assinaturas ativas.</p>
+  </div>
+
+  <!-- ESTADO 1: LOGIN -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 1 — Login</span>
+    </div>
+    <div class="box">
+      <div class="login-wrap">
+        <h2 class="login-title">Acessar portal</h2>
+        <p class="login-desc">Informe seu CPF ou CNPJ para receber um link de acesso seguro no seu e-mail.</p>
+        <div class="field">
+          <input type="text" placeholder="CPF ou CNPJ" aria-label="CPF ou CNPJ" inputmode="numeric">
+        </div>
+        <button class="btn" type="button">Receber link mágico</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTADO 2: CALLBACK (LOADING) -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 2 — Auth Callback</span>
+    </div>
+    <div class="box">
+      <div class="loading-wrap">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <h2 class="loading-title">Validando seu acesso...</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTADO 3: DASHBOARD -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 3 — Painel de Doações</span>
+    </div>
+    <div class="box">
+      <div class="dash-header">
+        <h2 class="dash-title">Suas doações</h2>
+        <p class="dash-user">Logado como <span>Marta Oliveira</span></p>
+      </div>
+
+      <div class="donation-list">
+        
+        <!-- Doação 1: Mensal Ativa -->
+        <div class="donation-card">
+          <div class="don-meta">
+            <span class="don-id">#DON-9A8B7C</span>
+            <span class="don-date">Iniciada em 12 Set 2026</span>
+          </div>
+          <div class="don-val-wrap">
+            <span class="don-val">R$ 150,00</span>
+            <span class="don-freq">Mensal</span>
+          </div>
+          <div class="don-status-wrap">
+            <span class="badge badge-ok">Ativa</span>
+          </div>
+          <div class="don-action">
+            <button class="btn-cancelar" type="button">Cancelar assinatura</button>
+          </div>
+        </div>
+
+        <!-- Doação 2: Única Aprovada -->
+        <div class="donation-card">
+          <div class="don-meta">
+            <span class="don-id">#DON-3F4E5D</span>
+            <span class="don-date">05 Ago 2026</span>
+          </div>
+          <div class="don-val-wrap">
+            <span class="don-val">R$ 500,00</span>
+            <span class="don-freq">Única</span>
+          </div>
+          <div class="don-status-wrap">
+            <span class="badge badge-ok">Aprovada</span>
+          </div>
+          <div class="don-action">
+            <!-- Sem ação -->
+          </div>
+        </div>
+
+        <!-- Doação 3: Mensal Cancelada -->
+        <div class="donation-card">
+          <div class="don-meta">
+            <span class="don-id">#DON-1X2Y3Z</span>
+            <span class="don-date">10 Jun 2026</span>
+          </div>
+          <div class="don-val-wrap">
+            <span class="don-val">R$ 50,00</span>
+            <span class="don-freq">Mensal</span>
+          </div>
+          <div class="don-status-wrap">
+            <span class="badge badge-err">Cancelada</span>
+          </div>
+          <div class="don-action">
+            <!-- Sem ação -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
