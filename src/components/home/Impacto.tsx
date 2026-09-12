@@ -5,7 +5,7 @@ import { TIERS } from "@/lib/content";
 /** Secao "O que cada doação vira": tiers de valor com atalho direto para o /doar. */
 export function Impacto() {
   return (
-    <section id="impacto" className={styles.section}>
+    <section id="impacto" className={styles.section} data-ga-section="impacto">
       <div className={`smWrap ${styles.intro}`}>
         <div className={`smSplit ${styles.split}`}>
           <h2 className={styles.title} data-fx="section-title">
