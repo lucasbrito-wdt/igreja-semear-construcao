@@ -26,7 +26,7 @@ export type DoacaoCartaoInfo = {
 
 export type DoacaoResponse = {
   id: string;
-  status: "pendente" | "pago";
+  status: "pendente" | "pago" | "falha" | "cancelada";
   frequencia: Frequencia;
   metodo: MetodoPagamento;
   valor: number;
