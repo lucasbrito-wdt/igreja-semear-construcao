@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { toApiPayload, type DonationErrors } from "@/lib/validation/donation";
 import type { CampaignStats } from "@/lib/campaign/types";
+import { sendGAEvent } from "@next/third-parties/google";
 import { FormularioDoacao } from "./FormularioDoacao";
 import { useDonationForm } from "./useDonationForm";
 import { useSubmitDonation } from "./useSubmitDonation";
@@ -65,6 +66,14 @@ export function DoacaoFlow({
   const [formError, setFormError] = useState<string | null>(null);
   const [shakeTrigger, setShakeTrigger] = useState(0);
 
+  // Envia begin_checkout quando o componente e montado pela primeira vez
+  useState(() => {
+    sendGAEvent("event", "begin_checkout", {
+      currency: "BRL",
+      items: [{ item_name: "Doação para Construção" }]
+    });
+  });
+
   async function handleSubmit() {
     setFormError(null);
     const resultado = form.validar();
@@ -74,6 +83,13 @@ export function DoacaoFlow({
       return;
     }
 
+    sendGAEvent("event", "add_payment_info", {
+      currency: "BRL",
+      value: form.valor,
+      payment_type: form.metodo,
+      items: [{ item_name: "Doação para Construção" }]
+    });
+
     setStep("enviando");
     const payload = toApiPayload(form.montarDonationForm());
     const outcome = await enviar(payload);
@@ -81,6 +97,17 @@ export function DoacaoFlow({
 
     if (outcome.kind === "sucesso") {
       setDoacao(outcome.doacao);
+      
+      const isCard = outcome.doacao.metodo === "cartao";
+      const eventName = isCard ? "purchase" : "generate_lead";
+      sendGAEvent("event", eventName, {
+        transaction_id: outcome.doacao.id,
+        currency: "BRL",
+        value: outcome.doacao.valor,
+        payment_type: outcome.doacao.metodo,
+        items: [{ item_name: "Doação para Construção" }]
+      });
+
       if (outcome.doacao.metodo === "pix") setStep("pix-aguardando");
       else if (outcome.doacao.metodo === "boleto") setStep("boleto");
       else setStep("cartao-aprovado");
@@ -143,7 +170,16 @@ export function DoacaoFlow({
         doacao={doacao}
         nome={form.nome || "amigo"}
         frequenciaLabel={frequenciaLabelDe(doacao.frequencia)}
-        onPago={() => setStep("pago")}
+        onPago={() => {
+          sendGAEvent("event", "purchase", {
+            transaction_id: doacao.id,
+            currency: "BRL",
+            value: doacao.valor,
+            payment_type: "pix",
+            items: [{ item_name: "Doação para Construção" }]
+          });
+          setStep("pago");
+        }}
         onGerarNovoPix={handleGerarNovoPix}
       />
     );
