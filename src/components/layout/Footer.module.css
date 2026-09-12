@@ -1,0 +1,69 @@
+.footer {
+  background: #12100e;
+  color: var(--ground);
+  border-top: 2px solid var(--ink);
+}
+
+.grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 56px) 34px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 44px;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandName {
+  font-size: 19px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.desc {
+  margin: 16px 0 0;
+  max-width: 400px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(246, 243, 238, 0.7);
+}
+
+.social {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.colTitle {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(246, 243, 238, 0.5);
+}
+
+.colBody {
+  margin-top: 15px;
+  font-size: 13.5px;
+  line-height: 1.95;
+  color: rgba(246, 243, 238, 0.82);
+}
+
+.bottomBar {
+  border-top: 1px solid rgba(246, 243, 238, 0.18);
+}
+
+.bottomBarInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 34px;
+  font-size: 11.5px;
+  color: rgba(246, 243, 238, 0.5);
+}

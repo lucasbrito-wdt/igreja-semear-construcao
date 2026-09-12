@@ -1,0 +1,134 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+}
+
+.split {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 78px) 34px 82px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 52px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.list {
+  margin-top: 32px;
+  border-top: 2px solid var(--ink);
+}
+
+.listItem {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 18px;
+}
+
+.listIndex {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--teal);
+  padding-top: 4px;
+}
+
+.listTitle {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.listDesc {
+  margin: 7px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--body-c);
+}
+
+.card {
+  border: 2px solid var(--ink);
+  padding: 34px 32px;
+  background: var(--ground);
+}
+
+.cardEyebrow {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+
+.budgetList {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.budgetRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.budgetPct {
+  color: var(--mute);
+}
+
+.budgetTrack {
+  height: 11px;
+  background: #e0dad0;
+}
+
+.budgetFill {
+  height: 100%;
+}
+
+.total {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.totalLabel {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.totalValue {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.cta {
+  margin-top: 22px;
+  width: 100%;
+  background: var(--ink);
+  color: var(--ground);
+  border: 0;
+  height: 64px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}

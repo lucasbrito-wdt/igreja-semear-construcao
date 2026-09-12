@@ -1,0 +1,5 @@
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) var(--gut) clamp(70px, 9vw, 120px);
+}

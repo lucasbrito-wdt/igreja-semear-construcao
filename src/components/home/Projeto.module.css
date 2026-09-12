@@ -1,0 +1,149 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+  background: var(--sand);
+}
+
+.headRow {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 78px) 34px 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(29px, 4.6vw, 56px);
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 440px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--body-c);
+}
+
+.gallery {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 34px 78px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2px;
+  background: var(--ink);
+  border: 2px solid var(--ink);
+}
+
+.figure {
+  margin: 0;
+  overflow: hidden;
+  background: #12100e;
+  position: relative;
+}
+
+.parallaxLayer {
+  position: absolute;
+  inset: -6% 0;
+}
+
+.figureMain {
+  grid-row: span 2;
+  min-height: clamp(260px, 42vw, 520px);
+}
+
+.figureSub {
+  min-height: clamp(200px, 22vw, 259px);
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: var(--ground);
+}
+
+.captionMain {
+  padding: 26px 28px;
+}
+
+.captionSub {
+  padding: 20px 22px;
+}
+
+.captionEyebrow {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-lit);
+}
+
+.captionEyebrowMain {
+  font-size: 10.5px;
+}
+
+.captionEyebrowSub {
+  font-size: 10px;
+}
+
+.captionTitleMain {
+  font-size: clamp(21px, 2.4vw, 28px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  margin-top: 8px;
+}
+
+.captionTitleSub {
+  font-size: 19px;
+  font-weight: 800;
+  margin-top: 6px;
+  letter-spacing: -0.02em;
+}
+
+.captionDesc {
+  margin: 8px 0 0;
+  max-width: 520px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(246, 243, 238, 0.82);
+}
+
+.numbersWrap {
+  border-top: 2px solid var(--ink);
+  background: var(--ground);
+}
+
+.numbers {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 34px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+}
+
+.numberItem {
+  padding: 32px 22px 32px 0;
+  border-right: 1px solid var(--line);
+}
+
+.numberValue {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.numberLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--mute);
+  margin-top: 6px;
+}

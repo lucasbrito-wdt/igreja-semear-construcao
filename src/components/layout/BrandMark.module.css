@@ -1,0 +1,14 @@
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--teal);
+  flex: none;
+}
+
+.imgWrap {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  display: block;
+}

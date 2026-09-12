@@ -1,0 +1,133 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+  background: var(--sand);
+}
+
+.split {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 78px) 34px 82px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 52px;
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.eyebrowLine {
+  width: 40px;
+  height: 2px;
+  background: var(--teal);
+  display: block;
+}
+
+.eyebrowText {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.schedule {
+  margin-top: 30px;
+  border-top: 2px solid var(--ink);
+}
+
+.scheduleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #cdc6bb;
+}
+
+.scheduleDay {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+.scheduleLine {
+  flex: 1;
+  height: 2px;
+  background: #cdc6bb;
+}
+
+.scheduleHour {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal-deep);
+  text-align: right;
+}
+
+.pastors {
+  margin: 26px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--body-c);
+}
+
+.card {
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  padding: 32px;
+}
+
+.cardEyebrow {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+
+.address {
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.contact {
+  margin-top: 18px;
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--body-c);
+}
+
+.linkRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 26px;
+  background: var(--ink);
+  padding: 2px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--ground);
+  padding: 16px 20px;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}

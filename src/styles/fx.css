@@ -1,0 +1,96 @@
+/* Estilos dos efeitos client-side (cursor, preloader, view transitions). */
+
+/* ═══════════ CURSOR CUSTOMIZADO (pointer: fine) ═══════════ */
+.fxCursorActive {
+  cursor: none;
+}
+.fxCursorActive input,
+.fxCursorActive textarea,
+.fxCursorActive select,
+.fxCursorActive [contenteditable="true"] {
+  cursor: auto;
+}
+
+.fxCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--teal);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition:
+    width 0.2s cubic-bezier(0.16, 0.84, 0.24, 1),
+    height 0.2s cubic-bezier(0.16, 0.84, 0.24, 1),
+    border-color 0.2s;
+  will-change: transform;
+}
+.fxCursor.fxCursorGrow {
+  width: 46px;
+  height: 46px;
+  background: rgba(14, 138, 125, 0.12);
+}
+.fxCursor.fxCursorHide {
+  opacity: 0 !important;
+}
+
+/* ═══════════ PRELOADER ═══════════ */
+/* escondido por padrao: so aparece se o JS decidir mostrar (1a visita da
+   sessao + prefers-reduced-motion: no-preference). Sem JS, nunca aparece —
+   nunca fica bloqueando a pagina. */
+.fxPreloader {
+  display: none;
+}
+.fxPreloader.isActive {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: var(--ink);
+  color: var(--ground);
+}
+.fxPreloaderCount {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: rgba(246, 243, 238, 0.72);
+}
+
+/* ═══════════ VIEW TRANSITIONS (fallback nativo, MPA/reload) ═══════════ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.32s;
+    animation-timing-function: cubic-bezier(0.16, 0.84, 0.24, 1);
+  }
+}
+
+/* transicao acionada via document.startViewTransition() pelo TransitionLink */
+.fxRouteFade {
+  animation: fxRouteFadeIn 0.32s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+@keyframes fxRouteFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fxCursor,
+  .fxPreloader {
+    display: none !important;
+  }
+}

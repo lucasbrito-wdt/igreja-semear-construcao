@@ -1,0 +1,276 @@
+/* Tokens, reset base e camada de movimento — compartilhados por toda a home. */
+
+/* ═══════════ TOKENS ═══════════ */
+:root {
+  --ink: #1a1815;
+  --ground: #f6f3ee;
+  --sand: #e9e4da;
+  --teal: #0e8a7d;
+  --teal-deep: #0a5f57;
+  --teal-lit: #4fd6c4;
+  --line: #d6d0c6;
+  --mute: #6b6560;
+  --body-c: #3f3b36;
+  --gut: clamp(16px, 3.6vw, 34px);
+  --hdr: 80px;
+  --tap: 44px;
+  color-scheme: light;
+}
+
+/* ═══════════ BASE ═══════════ */
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--hdr) + 14px);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-archivo), Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+  overflow-x: clip;
+}
+img,
+svg {
+  max-width: 100%;
+}
+a {
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(14, 138, 125, 0.16);
+}
+button {
+  -webkit-tap-highlight-color: rgba(14, 138, 125, 0.16);
+}
+input {
+  font-family: var(--font-archivo), Archivo, sans-serif;
+}
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+::selection {
+  background: #bfe4de;
+}
+
+/* filhos de grid/flex precisam poder encolher — evita estouro horizontal */
+.smHero > *,
+.smSplit > *,
+.smCards3 > *,
+.smNums4 > *,
+.smSteps5 > *,
+.smTiers4 > *,
+.smMedia > *,
+.smFoot > * {
+  min-width: 0;
+}
+.smMark {
+  flex: none;
+}
+/* a arte ocupa 84% do PNG, entao 80% da caixa deixa a pomba com o mesmo peso optico do lockup */
+.smMarkImg {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  display: block;
+}
+/* linha social do rodape: quadrados de 48px, alvo de toque cheio */
+.smIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border: 2px solid rgba(246, 243, 238, 0.32);
+  color: #f6f3ee;
+}
+.smIcon svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+}
+.smIcon:active {
+  transform: scale(0.94);
+}
+.smNav a {
+  white-space: nowrap;
+}
+.smBrandName {
+  white-space: nowrap;
+}
+
+.appShell {
+  min-height: 100dvh;
+  background: var(--ground);
+  overflow-x: clip;
+}
+
+/* ═══════════ GUTTER FLUIDO + SAFE AREA ═══════════ */
+.smWrap {
+  padding-left: max(var(--gut), env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(var(--gut), env(safe-area-inset-right, 0px)) !important;
+}
+
+/* ═══════════ MOVIMENTO ═══════════ */
+@keyframes smRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes smWipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes smGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes smKen {
+  from {
+    transform: scale(1.14) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+@keyframes smPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes smMarquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.smMarquee {
+  display: flex;
+  width: max-content;
+  animation: smMarquee 34s linear infinite;
+}
+.smR {
+  animation: smRise 0.8s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smR2 {
+  animation: smRise 0.8s 0.12s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smR3 {
+  animation: smRise 0.8s 0.24s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smR4 {
+  animation: smRise 0.8s 0.36s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smWipe {
+  animation: smWipe 1s 0.2s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smBar {
+  transform-origin: left;
+  animation: smGrow 1.6s 0.4s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+.smKen {
+  animation: smKen 18s ease-out both;
+}
+.smDot {
+  animation: smPulse 2s ease-in-out infinite;
+}
+.smLift {
+  transition:
+    transform 0.25s cubic-bezier(0.16, 0.84, 0.24, 1),
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.smUl {
+  position: relative;
+}
+.smUl::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  height: 2px;
+  background: var(--teal);
+  transition: right 0.3s cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+.smFig img {
+  transition: transform 0.8s cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    color: var(--teal);
+  }
+  .smLift:hover {
+    transform: translateY(-3px);
+  }
+  .smUl:hover::after {
+    right: 0;
+  }
+  .smFig:hover img {
+    transform: scale(1.05);
+  }
+  .smIcon:hover {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: #fff;
+  }
+}
+@media (hover: none) {
+  .smLift:active,
+  .smTiers4 > a:active {
+    transform: scale(0.985);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .smMarquee {
+    animation: none !important;
+  }
+  .smKen {
+    animation: none !important;
+    transform: none !important;
+  }
+  .smDot {
+    opacity: 1 !important;
+  }
+}

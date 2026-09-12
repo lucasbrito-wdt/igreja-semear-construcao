@@ -1,0 +1,202 @@
+/* Marquee, splits, cards/numeros/etapas, galeria, tiers, links e rodape. */
+
+/* ═══════════ MARQUEE ═══════════ */
+@media (max-width: 720px) {
+  .smMarquee {
+    animation-duration: 24s;
+    font-size: 11px !important;
+    letter-spacing: 0.16em !important;
+    padding: 13px 0 !important;
+  }
+}
+
+/* ═══════════ SPLITS (por que / impacto / contas / visite) ═══════════ */
+@media (max-width: 880px) {
+  .smSplit {
+    grid-template-columns: 1fr !important;
+    gap: 26px !important;
+  }
+  .smSplitBody {
+    padding-top: 0 !important;
+  }
+}
+
+/* ═══════════ CARDS / NÚMEROS / ETAPAS ═══════════ */
+/* deixa o auto-fit trabalhar; só limpamos o filete da última coluna */
+.smCards3 > div:last-child,
+.smNums4 > div:last-child,
+.smSteps5 > div:last-child {
+  border-right: 0 !important;
+}
+@media (max-width: 1180px) {
+  .smCards3 {
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)) !important;
+  }
+  .smSteps5 {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+  }
+  .smNums4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+  }
+}
+@media (max-width: 640px) {
+  .smCards3,
+  .smSteps5 {
+    grid-template-columns: 1fr !important;
+  }
+  .smNums4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .smCards3 > div,
+  .smSteps5 > div,
+  .smNums4 > div {
+    border-right: 0 !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .smCards3 > div {
+    padding-top: 28px !important;
+    padding-bottom: 30px !important;
+  }
+  .smCards3 > div:last-child,
+  .smSteps5 > div:last-child {
+    border-bottom: 0 !important;
+  }
+  .smNums4 > div:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
+}
+@media (max-width: 340px) {
+  .smNums4 {
+    grid-template-columns: 1fr !important;
+  }
+  .smNums4 > div:last-child {
+    border-bottom: 0 !important;
+  }
+}
+
+/* o respiro da galeria vira margem: sem tarja preta sob a ultima imagem */
+.smMedia {
+  padding-bottom: 0 !important;
+  margin-bottom: clamp(44px, 6vw, 78px);
+}
+
+/* legenda legivel sobre qualquer trecho claro do render */
+.smFigMain figcaption {
+  background: linear-gradient(to top, rgba(10, 14, 13, 0.94) 0%, rgba(10, 14, 13, 0.78) 55%, rgba(10, 14, 13, 0) 100%) !important;
+}
+.smFigSub figcaption {
+  background: linear-gradient(to top, rgba(10, 14, 13, 0.94) 0%, rgba(10, 14, 13, 0.72) 70%, rgba(10, 14, 13, 0) 100%) !important;
+  padding-top: 34px !important;
+}
+
+/* CTAs de largura total no telefone — alvo de toque cheio */
+@media (max-width: 480px) {
+  .smBtnRow {
+    gap: 10px !important;
+  }
+  .smBtnRow > * {
+    flex: 1 1 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
+/* ═══════════ GALERIA DO PROJETO ═══════════ */
+/* mosaico explicito: auto-fit gerava 4 colunas em telas largas e deixava um vazio */
+@media (min-width: 1181px) {
+  .smMedia {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .smFigMain {
+    grid-row: span 2 !important;
+    grid-column: 1 !important;
+    min-height: 0 !important;
+  }
+  .smFigSub {
+    min-height: clamp(230px, 19vw, 310px) !important;
+  }
+}
+@media (max-width: 1180px) {
+  .smMedia figure {
+    grid-row: auto !important;
+  }
+  .smFigMain {
+    grid-column: 1 / -1 !important;
+    min-height: 0 !important;
+    aspect-ratio: 21 / 9;
+  }
+  .smFigSub {
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3;
+  }
+}
+@media (max-width: 860px) {
+  .smMedia {
+    grid-template-columns: 1fr !important;
+  }
+  .smFigMain {
+    aspect-ratio: 4 / 3;
+  }
+  .smFigSub {
+    aspect-ratio: 16 / 10;
+  }
+}
+@media (max-width: 560px) {
+  .smFigMain {
+    aspect-ratio: 3 / 4;
+  }
+  .smFigSub {
+    aspect-ratio: 4 / 3;
+  }
+  .smFigMain figcaption {
+    padding: 20px 18px !important;
+  }
+  .smFigSub figcaption {
+    padding: 16px 16px !important;
+  }
+}
+
+/* ═══════════ TIERS DE DOAÇÃO ═══════════ */
+@media (max-width: 1180px) {
+  .smTiers4 {
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)) !important;
+  }
+}
+@media (max-width: 620px) {
+  .smTiers4 {
+    grid-template-columns: 1fr !important;
+  }
+  .smTiers4 > a {
+    min-height: 0 !important;
+    padding: 24px 22px 22px !important;
+  }
+}
+
+/* ═══════════ VISITE — lista de links ═══════════ */
+@media (max-width: 420px) {
+  .smLinkRow a {
+    font-size: 11px !important;
+    padding: 15px 15px !important;
+    letter-spacing: 0.1em !important;
+    gap: 10px;
+  }
+}
+
+/* ═══════════ RODAPÉ ═══════════ */
+@media (max-width: 880px) {
+  .smFoot {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px !important;
+  }
+  .smFoot > div:first-child {
+    grid-column: 1 / -1 !important;
+  }
+}
+@media (max-width: 520px) {
+  .smFoot {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+}

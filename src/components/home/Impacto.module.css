@@ -1,0 +1,106 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+  background: #12100e;
+  color: var(--ground);
+}
+
+.intro {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 78px) 34px 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
+  align-items: end;
+  padding-bottom: 44px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(29px, 4.6vw, 56px);
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: rgba(246, 243, 238, 0.78);
+}
+
+.tiersWrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 34px 78px;
+}
+
+.tiers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  gap: 2px;
+  background: rgba(246, 243, 238, 0.22);
+  border: 2px solid rgba(246, 243, 238, 0.22);
+}
+
+.tier {
+  position: relative;
+  overflow: hidden;
+  background: #12100e;
+  padding: 32px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: clamp(190px, 20vw, 230px);
+  color: var(--ground);
+}
+
+.tier::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgba(79, 214, 196, 0.28), transparent 70%);
+  transition: opacity 0.25s ease;
+}
+
+.tier[data-fx-spotlight="on"]::before {
+  opacity: 1;
+}
+
+.tier > * {
+  position: relative;
+}
+
+.tierValor {
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.tierLine {
+  width: 34px;
+  height: 2px;
+  background: var(--teal);
+}
+
+.tierVira {
+  font-size: 15.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: rgba(246, 243, 238, 0.9);
+}
+
+.tierCta {
+  margin-top: auto;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--teal-lit);
+}

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Semear — Mockup: formulário de doação (03 Dados + 04 Pagamento)</title>
+<!--
+  MOCKUP — coluna do formulário /doar, estendendo o protótipo aprovado
+  (design/prototype/index.html, linhas 1-305 e 602-730). Não é a página final:
+  é material de revisão visual para o spec-delta (docs/spec-delta.md, seção UI).
+
+  DECISÕES DE TOKEN (reaproveitados, nenhum valor novo de cor/tipo/raio):
+  - Paleta, fonte (Archivo → system-ui), 2px de borda ink, zero border-radius,
+    labels uppercase com tracking .2em e numeração "0N —" copiados 1:1 do protótipo.
+  - Erro usa --erro (#a8341c) só em borda + mensagem — nunca como preenchimento
+    de botão, para não competir com o teal como cor de ação.
+  - Duas famílias de "cor de escolha": frequência (macro-decisão) destaca em ink,
+    valor e forma de pagamento (micro-decisão ligada ao dinheiro) destacam em teal —
+    interpretação explícita porque o protótipo original não expõe os valores de
+    v.bg/v.fg; mantida igual nas 3 variantes para não introduzir uma 3ª regra.
+  - CPF/CNPJ some para dentro de "03 — Seus dados" como um campo full-row com
+    texto de ajuda abaixo, no mesmo padrão do rodapé de texto de ajuda já usado
+    na nota de frequência do protótipo (parágrafo pequeno, --mute).
+  - Bloco de cartão é um sub-painel (fundo --sand, borda ink) dentro de
+    "04 — Forma de pagamento", não um modal nem um accordion novo — reaproveita
+    a ideia de "aside sobre sand" que o protótipo já usa para o resumo.
+  - Ícone de bandeira e cadeado seguem o traço do check da tela de confirmação
+    (stroke-width 3, stroke-linecap square, sem curvas) — mesmo vocabulário de
+    ícone do protótipo, não um pacote de ícones externo.
+  - Selo "Modo de teste" é texto discreto com um ponto teal, mesma escala de um
+    micro-rótulo, colado na barra "Resumo" — não é um banner nem uma cor nova.
+
+  CRÍTICA ANTES DO CÓDIGO (o que evitei):
+  - Quase escrevi um accordion com border-radius para o bloco de cartão — cortado
+    porque o protótipo não usa raio em lugar nenhum; virou painel retangular.
+  - Quase usei vermelho puro (#ff0000) no erro — corrigido para --erro do próprio
+    projeto.
+  - Quase usei um ícone de cadeado "de biblioteca" arredondado — redesenhado com
+    o traço quadrado do check já existente para não introduzir um 2º idioma visual.
+  - Quase deixei os 3 estados só como comentário "igual ao anterior" — reescritos
+    por extenso (01→04 completos nas 3 variantes) por instrução explícita de não
+    economizar token.
+
+  CRÍTICA DEPOIS DO CÓDIGO (o que revisei ao reler):
+  - Confirmei contraste do erro (#a8341c sobre #f6f3ee e #e9e4da) e do teal sobre
+    branco/ground — todos acima de 4.5:1 para texto de apoio.
+  - Confirmei foco de teclado visível em todo input/button (herdado do protótipo).
+  - Confirmei que em 390px nenhum grid força overflow (auto-fit + minmax baixo).
+  - Adicionei aria-label/aria-invalid/aria-describedby nos campos, ausentes no
+    protótipo original (que só usa placeholder) — correção de acessibilidade que
+    não muda nada visualmente.
+  - Removi uma 4ª variante que eu tinha escrito para "boleto padrão" por ser
+    redundante com o que já aparece no arquivo de telas pós-envio.
+-->
+<style>
+:root{
+  --ink:#1a1815; --ground:#f6f3ee; --sand:#e9e4da;
+  --teal:#0e8a7d; --teal-deep:#0a5f57; --teal-lit:#4fd6c4;
+  --line:#d6d0c6; --mute:#6b6560; --body-c:#3f3b36; --erro:#a8341c;
+  --gut:clamp(16px,3.6vw,34px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+img,svg{max-width:100%;display:block}
+button{font-family:inherit;-webkit-tap-highlight-color:rgba(14,138,125,.16)}
+input{font-family:inherit;-webkit-tap-highlight-color:rgba(14,138,125,.16)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+::selection{background:#bfe4de}
+
+.page{max-width:1400px;margin:0 auto;padding:clamp(28px,5vw,56px) var(--gut) clamp(60px,8vw,110px)}
+.intro{margin-bottom:clamp(30px,4vw,48px)}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.eyebrow span.bar{width:40px;height:2px;background:var(--teal);display:block;flex:none}
+.eyebrow span.txt{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--teal-deep)}
+.intro h1{margin:0;font-size:clamp(26px,3.6vw,42px);line-height:1.02;font-weight:900;letter-spacing:-.03em}
+.intro p{margin:16px 0 0;max-width:640px;font-size:15px;line-height:1.6;color:var(--body-c)}
+
+.variant{margin-top:clamp(36px,5vw,56px)}
+.variant:first-of-type{margin-top:0}
+.state-bar{background:var(--ink);color:var(--ground);padding:15px 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px}
+.state-bar .label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.16em}
+.state-bar .note{font-size:12px;color:var(--teal-lit);font-weight:600}
+
+.smForm{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));border:2px solid var(--ink);border-top:0}
+.smFormMain{container-type:inline-size;container-name:formcol;padding:clamp(28px,4.2vw,50px) clamp(18px,4vw,44px) clamp(40px,5.4vw,64px);border-right:2px solid var(--ink)}
+.stepLabel{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--mute);margin-bottom:14px}
+.stepBlock{margin-top:38px}
+.stepBlock:first-child{margin-top:0}
+
+/* 01 — frequência */
+.freqGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));border:2px solid var(--ink)}
+.freqBtn{border:0;padding:22px 24px;text-align:left;cursor:pointer;background:transparent;color:var(--ink)}
+.freqGrid .freqBtn:first-child{border-right:2px solid var(--ink)}
+.freqBtn.sel{background:var(--ink);color:var(--ground)}
+.freqBtn .t{font-size:18px;font-weight:900;letter-spacing:-.015em}
+.freqBtn .d{font-size:13px;margin-top:5px;opacity:.72}
+.stepBlock p.hint{margin:13px 0 0;font-size:13.5px;line-height:1.6;color:var(--body-c)}
+
+/* 02 — valor */
+.valGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.valBtn{border:2px solid var(--ink);background:var(--ground);color:var(--ink);padding:19px 17px;text-align:left;cursor:pointer}
+.valBtn.sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.valBtn .t{font-size:23px;font-weight:900;letter-spacing:-.025em}
+.valBtn .d{font-size:11.5px;margin-top:6px;line-height:1.35;opacity:.82}
+.customVal{margin-top:14px;display:flex;align-items:stretch;border:2px solid var(--ink)}
+.customVal span{display:flex;align-items:center;padding:0 18px;background:var(--ink);color:var(--ground);font-size:14px;font-weight:800}
+.customVal input{flex:1;border:0;padding:17px;font-size:17px;font-weight:600;background:var(--ground);color:var(--ink);outline:none;min-width:0}
+
+/* 03 — dados */
+.dadosGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px}
+.dadosGrid .full{grid-column:1/-1}
+.field input{border:2px solid var(--ink);padding:16px;font-size:15px;background:var(--ground);outline:none;width:100%;min-height:52px}
+.field.err input{border-color:var(--erro)}
+.field-help{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--mute)}
+.field-err-msg{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--erro);font-weight:700;display:flex;gap:7px;align-items:flex-start}
+.field-err-msg svg{flex:none;margin-top:2px}
+.consent{display:flex;gap:11px;align-items:flex-start;margin-top:16px;font-size:13.5px;color:var(--body-c);cursor:pointer}
+.consent input{margin-top:2px;accent-color:var(--teal);width:18px;height:18px;flex:none}
+
+/* 04 — pagamento */
+.payGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px}
+.payBtn{border:2px solid var(--ink);background:var(--ground);color:var(--ink);padding:17px;text-align:left;cursor:pointer}
+.payBtn.sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.payBtn .t{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+.payBtn .d{font-size:11.5px;margin-top:6px;opacity:.82}
+.payNote{margin:13px 0 0;font-size:13px;color:var(--mute)}
+
+/* painel de cartão */
+.cardPanel{margin-top:16px;border:2px solid var(--ink);background:var(--sand);padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.cardPanel .full{grid-column:1/-1}
+.numWrap{position:relative}
+.numWrap input{padding-right:58px}
+.cardFlag{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:34px;height:24px;border:2px solid var(--ink);background:var(--ground);display:flex;align-items:center;justify-content:center}
+.flagNote{margin-top:-4px;font-size:11.5px;color:var(--mute);display:flex;align-items:center;gap:6px}
+.flagNote .sw{width:8px;height:8px;background:var(--teal);flex:none}
+.trustLine{display:flex;gap:10px;align-items:flex-start;padding-top:6px;border-top:1px solid #cdc6bb}
+.trustLine svg{flex:none;margin-top:2px}
+.trustLine span{font-size:12.5px;line-height:1.55;color:var(--mute)}
+
+/* aside */
+.smFormAside{background:var(--sand);padding:clamp(26px,3.6vw,50px) clamp(18px,3.2vw,38px) clamp(40px,5.4vw,64px)}
+.summaryCard{border:2px solid var(--ink);background:var(--ground);padding:30px 28px}
+.summaryHead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.summaryHead .lbl{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:var(--teal-deep)}
+.sandbox{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);color:var(--mute);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;padding:5px 9px}
+.sandbox .dot{width:6px;height:6px;background:var(--teal);flex:none}
+.valueRow{margin-top:22px;display:flex;align-items:baseline;gap:10px}
+.valueRow .n{font-size:clamp(32px,4vw,44px);font-weight:900;letter-spacing:-.04em;line-height:1}
+.valueRow .s{font-size:14px;color:var(--mute);font-weight:700}
+.metaTable{margin-top:24px;border-top:1px solid #cdc6bb}
+.metaTable .r{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #cdc6bb;font-size:13.5px}
+.metaTable .r:last-child{border-bottom:0}
+.metaTable .r span:first-child{color:var(--mute)}
+.metaTable .r span:last-child{font-weight:800}
+.metaTable .r.dest span:last-child{color:var(--teal-deep);font-weight:900}
+.impact{margin-top:20px;background:var(--teal);color:#fff;padding:18px 20px}
+.impact .lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)}
+.impact .txt{font-size:15px;line-height:1.45;margin-top:8px;font-weight:700}
+.btnConfirm{margin-top:20px;width:100%;background:var(--ink);color:var(--ground);border:0;min-height:60px;padding:0 24px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.btnConfirm.loading{background:var(--mute);cursor:not-allowed}
+.dots{display:inline-flex;gap:5px}
+.dots i{width:6px;height:6px;background:var(--ground);display:block;animation:dotPulse 1.1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.16s}
+.dots i:nth-child(3){animation-delay:.32s}
+@keyframes dotPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:1}}
+.formErr{margin:13px 0 0;font-size:13px;color:var(--erro);font-weight:700}
+.demoNote{margin:14px 0 0;font-size:11.5px;line-height:1.55;color:var(--mute)}
+.pixAlt{margin-top:20px;border:2px solid var(--ink);background:var(--ground);padding:16px 18px}
+.pixAlt .t{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.13em}
+.pixAlt .d{font-size:13px;color:var(--body-c);margin-top:6px;line-height:1.5}
+
+@media (max-width:900px){
+  .smForm{grid-template-columns:1fr}
+  .smFormMain{border-right:0;border-bottom:2px solid var(--ink)}
+}
+@container formcol (max-width:560px){
+  .valGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .payGrid{grid-template-columns:1fr}
+}
+@container formcol (max-width:440px){
+  .freqGrid{grid-template-columns:1fr}
+  .freqGrid .freqBtn:first-child{border-right:0;border-bottom:2px solid var(--ink)}
+  .dadosGrid{grid-template-columns:1fr}
+}
+@container formcol (max-width:320px){
+  .valGrid{grid-template-columns:1fr}
+}
+@supports not (container-type:inline-size){
+  @media (max-width:640px){
+    .valGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .payGrid{grid-template-columns:1fr}
+  }
+  @media (max-width:520px){
+    .freqGrid{grid-template-columns:1fr}
+    .freqGrid .freqBtn:first-child{border-right:0;border-bottom:2px solid var(--ink)}
+    .dadosGrid{grid-template-columns:1fr}
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="intro">
+    <div class="eyebrow"><span class="bar"></span><span class="txt">Mockup — /doar</span></div>
+    <h1>Formulário de doação — dados e pagamento</h1>
+    <p>Três variantes da coluna do formulário mostrando o novo campo de CPF/CNPJ, o bloco expandido de cartão, o estado de erro por campo, o botão de confirmação em carregamento e o selo de modo de teste. Estende — não redesenha — o protótipo aprovado.</p>
+  </div>
+
+  <!-- ═══════════ VARIANTE 1 — Pix, estado padrão ═══════════ -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 1 — Pix selecionado · dados válidos</span>
+      <span class="note">Doação única · R$ 300</span>
+    </div>
+    <div class="smForm">
+      <div class="smFormMain">
+
+        <div class="stepBlock">
+          <div class="stepLabel">01 — Frequência</div>
+          <div class="freqGrid">
+            <button class="freqBtn sel" type="button">
+              <div class="t">Doação única</div>
+              <div class="d">Uma contribuição agora</div>
+            </button>
+            <button class="freqBtn" type="button">
+              <div class="t">Doação mensal</div>
+              <div class="d">Sustenta o cronograma da obra</div>
+            </button>
+          </div>
+          <p class="hint">Você pode cancelar ou alterar uma doação mensal quando quiser, direto pelo e-mail de confirmação.</p>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">02 — Valor</div>
+          <div class="valGrid">
+            <button class="valBtn" type="button"><div class="t">R$ 50</div><div class="d">Um saco de cimento</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 100</div><div class="d">Um metro de fiação elétrica</div></button>
+            <button class="valBtn sel" type="button"><div class="t">R$ 300</div><div class="d">Um metro quadrado de piso</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 500</div><div class="d">Uma janela do salão principal</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 1.000</div><div class="d">Um trecho da laje do mezanino</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 2.500</div><div class="d">Um conjunto de portas do templo</div></button>
+          </div>
+          <div class="customVal">
+            <span>R$</span>
+            <input placeholder="Outro valor" aria-label="Outro valor de doação" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">03 — Seus dados</div>
+          <div class="dadosGrid">
+            <div class="field full"><input placeholder="Nome completo" aria-label="Nome completo" value="Marta Oliveira"></div>
+            <div class="field"><input type="email" placeholder="E-mail" aria-label="E-mail" value="marta.oliveira@email.com"></div>
+            <div class="field"><input type="tel" placeholder="WhatsApp" aria-label="WhatsApp" value="(83) 99123-4567"></div>
+            <div class="field full">
+              <input placeholder="CPF ou CNPJ" aria-label="CPF ou CNPJ" inputmode="numeric" value="042.318.905-77">
+              <p class="field-help">Exigido pelo meio de pagamento para emitir o recibo da sua doação.</p>
+            </div>
+          </div>
+          <label class="consent">
+            <input type="checkbox" checked>
+            <span>Quero receber o recibo de doação e o relatório mensal da obra por e-mail.</span>
+          </label>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">04 — Forma de pagamento</div>
+          <div class="payGrid">
+            <button class="payBtn sel" type="button"><div class="t">Pix</div><div class="d">Confirmação em minutos</div></button>
+            <button class="payBtn" type="button"><div class="t">Cartão</div><div class="d">Crédito, à vista ou mensal</div></button>
+            <button class="payBtn" type="button"><div class="t">Boleto</div><div class="d">Compensa em até 3 dias úteis</div></button>
+          </div>
+          <p class="payNote">Você vai ver o QR Code e o código copia-e-cola na próxima tela, assim que confirmar.</p>
+        </div>
+
+      </div>
+
+      <aside class="smFormAside">
+        <div class="summaryCard">
+          <div class="summaryHead">
+            <span class="lbl">Resumo</span>
+            <span class="sandbox"><span class="dot"></span>Modo de teste</span>
+          </div>
+          <div class="valueRow"><span class="n">R$ 300</span><span class="s">única</span></div>
+          <div class="metaTable">
+            <div class="r"><span>Tipo</span><span>Doação única</span></div>
+            <div class="r"><span>Pagamento</span><span>Pix</span></div>
+            <div class="r"><span>Taxa administrativa</span><span>R$ 0,00</span></div>
+            <div class="r dest"><span>Vai para a obra</span><span>100%</span></div>
+          </div>
+          <div class="impact">
+            <div class="lbl">Sua doação constrói</div>
+            <div class="txt">R$ 300 cobre um metro quadrado de piso do salão principal.</div>
+          </div>
+          <button class="btnConfirm" type="button">Confirmar doação de R$ 300</button>
+          <p class="demoNote">Ambiente de testes do processador de pagamento — nenhum valor real é cobrado nesta simulação.</p>
+        </div>
+        <div class="pixAlt">
+          <div class="t">Prefere transferir direto?</div>
+          <div class="d">Pix CNPJ <strong>32.703.146/0001-90</strong> · Igreja Batista Semear — conta exclusiva da construção.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ═══════════ VARIANTE 2 — Cartão expandido, erro de CVV ═══════════ -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 2 — Cartão selecionado · erro no CVV</span>
+      <span class="note">Doação mensal · R$ 150/mês</span>
+    </div>
+    <div class="smForm">
+      <div class="smFormMain">
+
+        <div class="stepBlock">
+          <div class="stepLabel">01 — Frequência</div>
+          <div class="freqGrid">
+            <button class="freqBtn" type="button">
+              <div class="t">Doação única</div>
+              <div class="d">Uma contribuição agora</div>
+            </button>
+            <button class="freqBtn sel" type="button">
+              <div class="t">Doação mensal</div>
+              <div class="d">Sustenta o cronograma da obra</div>
+            </button>
+          </div>
+          <p class="hint">Sua assinatura pode ser cancelada a qualquer momento, direto pelo e-mail de confirmação.</p>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">02 — Valor</div>
+          <div class="valGrid">
+            <button class="valBtn" type="button"><div class="t">R$ 50</div><div class="d">Um saco de cimento</div></button>
+            <button class="valBtn sel" type="button"><div class="t">R$ 100</div><div class="d">Um metro de fiação elétrica</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 300</div><div class="d">Um metro quadrado de piso</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 500</div><div class="d">Uma janela do salão principal</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 1.000</div><div class="d">Um trecho da laje do mezanino</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 2.500</div><div class="d">Um conjunto de portas do templo</div></button>
+          </div>
+          <div class="customVal">
+            <span>R$</span>
+            <input placeholder="Outro valor" aria-label="Outro valor de doação" inputmode="decimal" value="150">
+          </div>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">03 — Seus dados</div>
+          <div class="dadosGrid">
+            <div class="field full"><input placeholder="Nome completo" aria-label="Nome completo" value="Renato Cavalcante Dias"></div>
+            <div class="field"><input type="email" placeholder="E-mail" aria-label="E-mail" value="renato.dias@email.com"></div>
+            <div class="field"><input type="tel" placeholder="WhatsApp" aria-label="WhatsApp" value="(83) 98811-2233"></div>
+            <div class="field full">
+              <input placeholder="CPF ou CNPJ" aria-label="CPF ou CNPJ" inputmode="numeric" value="15.402.877/0001-06">
+              <p class="field-help">Exigido pelo meio de pagamento para emitir o recibo da sua doação.</p>
+            </div>
+          </div>
+          <label class="consent">
+            <input type="checkbox" checked>
+            <span>Quero receber o recibo de doação e o relatório mensal da obra por e-mail.</span>
+          </label>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">04 — Forma de pagamento</div>
+          <div class="payGrid">
+            <button class="payBtn" type="button"><div class="t">Pix</div><div class="d">Confirmação em minutos</div></button>
+            <button class="payBtn sel" type="button"><div class="t">Cartão</div><div class="d">Crédito, à vista ou mensal</div></button>
+            <button class="payBtn" type="button"><div class="t">Boleto</div><div class="d">Compensa em até 3 dias úteis</div></button>
+          </div>
+
+          <div class="cardPanel">
+            <div class="field full"><input placeholder="Nome impresso no cartão" aria-label="Nome impresso no cartão" value="RENATO C DIAS"></div>
+
+            <div class="field full numWrap">
+              <input placeholder="Número do cartão" aria-label="Número do cartão" inputmode="numeric" value="4539 •••• •••• 1187">
+              <span class="cardFlag" aria-hidden="true">
+                <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="1" y="1" width="18" height="12" stroke="#1a1815" stroke-width="1.6"/><line x1="1" y1="5.2" x2="19" y2="5.2" stroke="#1a1815" stroke-width="1.6"/></svg>
+              </span>
+            </div>
+            <div class="full flagNote"><span class="sw"></span>Bandeira detectada: Visa</div>
+
+            <div class="field"><input placeholder="Validade (MM/AA)" aria-label="Validade do cartão" inputmode="numeric" value="09/29"></div>
+            <div class="field err">
+              <input placeholder="CVV" aria-label="Código de segurança do cartão" inputmode="numeric" value="82" aria-invalid="true" aria-describedby="cvv-erro-v2">
+            </div>
+            <p id="cvv-erro-v2" class="field-err-msg full" style="grid-column:1/-1;margin-top:-6px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a8341c" stroke-width="3" stroke-linecap="square"><path d="M12 8v6M12 18h.01"/><rect x="3" y="3" width="18" height="18" stroke="#a8341c" stroke-width="2"/></svg>
+              CVV inválido — confira os 3 dígitos no verso do cartão.
+            </p>
+
+            <div class="field"><input placeholder="CEP" aria-label="CEP do titular" inputmode="numeric" value="58200-000"></div>
+            <div class="field"><input placeholder="Número" aria-label="Número do endereço do titular" value="482"></div>
+
+            <div class="trustLine full">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1815" stroke-width="2.4" stroke-linecap="square"><rect x="5" y="11" width="14" height="9"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <span>Dados enviados criptografados direto ao processador de pagamento. Não armazenamos os dados do seu cartão.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="smFormAside">
+        <div class="summaryCard">
+          <div class="summaryHead">
+            <span class="lbl">Resumo</span>
+            <span class="sandbox"><span class="dot"></span>Modo de teste</span>
+          </div>
+          <div class="valueRow"><span class="n">R$ 150</span><span class="s">por mês</span></div>
+          <div class="metaTable">
+            <div class="r"><span>Tipo</span><span>Doação mensal</span></div>
+            <div class="r"><span>Pagamento</span><span>Cartão de crédito</span></div>
+            <div class="r"><span>Taxa administrativa</span><span>R$ 0,00</span></div>
+            <div class="r dest"><span>Vai para a obra</span><span>100%</span></div>
+          </div>
+          <div class="impact">
+            <div class="lbl">Sua doação constrói</div>
+            <div class="txt">R$ 150 por mês sustenta cerca de um metro de fiação elétrica a cada mês de obra.</div>
+          </div>
+          <button class="btnConfirm" type="button">Confirmar assinatura de R$ 150/mês</button>
+          <p class="formErr">Confira o CVV do cartão antes de confirmar.</p>
+          <p class="demoNote">Ambiente de testes do processador de pagamento — nenhum valor real é cobrado nesta simulação.</p>
+        </div>
+        <div class="pixAlt">
+          <div class="t">Prefere transferir direto?</div>
+          <div class="d">Pix CNPJ <strong>32.703.146/0001-90</strong> · Igreja Batista Semear — conta exclusiva da construção.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ═══════════ VARIANTE 3 — Boleto, botão em carregamento ═══════════ -->
+  <div class="variant">
+    <div class="state-bar">
+      <span class="label">Estado 3 — Boleto selecionado · confirmando doação</span>
+      <span class="note">Doação única · R$ 1.000</span>
+    </div>
+    <div class="smForm">
+      <div class="smFormMain">
+
+        <div class="stepBlock">
+          <div class="stepLabel">01 — Frequência</div>
+          <div class="freqGrid">
+            <button class="freqBtn sel" type="button">
+              <div class="t">Doação única</div>
+              <div class="d">Uma contribuição agora</div>
+            </button>
+            <button class="freqBtn" type="button">
+              <div class="t">Doação mensal</div>
+              <div class="d">Sustenta o cronograma da obra</div>
+            </button>
+          </div>
+          <p class="hint">Você pode cancelar ou alterar uma doação mensal quando quiser, direto pelo e-mail de confirmação.</p>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">02 — Valor</div>
+          <div class="valGrid">
+            <button class="valBtn" type="button"><div class="t">R$ 50</div><div class="d">Um saco de cimento</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 100</div><div class="d">Um metro de fiação elétrica</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 300</div><div class="d">Um metro quadrado de piso</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 500</div><div class="d">Uma janela do salão principal</div></button>
+            <button class="valBtn sel" type="button"><div class="t">R$ 1.000</div><div class="d">Um trecho da laje do mezanino</div></button>
+            <button class="valBtn" type="button"><div class="t">R$ 2.500</div><div class="d">Um conjunto de portas do templo</div></button>
+          </div>
+          <div class="customVal">
+            <span>R$</span>
+            <input placeholder="Outro valor" aria-label="Outro valor de doação" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">03 — Seus dados</div>
+          <div class="dadosGrid">
+            <div class="field full"><input placeholder="Nome completo" aria-label="Nome completo" value="Igreja em Célula Vila Cristã" disabled></div>
+            <div class="field"><input type="email" placeholder="E-mail" aria-label="E-mail" value="celula.vilacrista@email.com" disabled></div>
+            <div class="field"><input type="tel" placeholder="WhatsApp" aria-label="WhatsApp" value="(83) 99700-4411" disabled></div>
+            <div class="field full">
+              <input placeholder="CPF ou CNPJ" aria-label="CPF ou CNPJ" inputmode="numeric" value="14.552.301/0001-92" disabled>
+              <p class="field-help">Exigido pelo meio de pagamento para emitir o recibo da sua doação.</p>
+            </div>
+          </div>
+          <label class="consent">
+            <input type="checkbox" checked disabled>
+            <span>Quero receber o recibo de doação e o relatório mensal da obra por e-mail.</span>
+          </label>
+        </div>
+
+        <div class="stepBlock">
+          <div class="stepLabel">04 — Forma de pagamento</div>
+          <div class="payGrid">
+            <button class="payBtn" type="button" disabled><div class="t">Pix</div><div class="d">Confirmação em minutos</div></button>
+            <button class="payBtn" type="button" disabled><div class="t">Cartão</div><div class="d">Crédito, à vista ou mensal</div></button>
+            <button class="payBtn sel" type="button" disabled><div class="t">Boleto</div><div class="d">Compensa em até 3 dias úteis</div></button>
+          </div>
+          <p class="payNote">Estamos gerando o seu boleto — isso leva só alguns segundos.</p>
+        </div>
+
+      </div>
+
+      <aside class="smFormAside">
+        <div class="summaryCard">
+          <div class="summaryHead">
+            <span class="lbl">Resumo</span>
+            <span class="sandbox"><span class="dot"></span>Modo de teste</span>
+          </div>
+          <div class="valueRow"><span class="n">R$ 1.000</span><span class="s">única</span></div>
+          <div class="metaTable">
+            <div class="r"><span>Tipo</span><span>Doação única</span></div>
+            <div class="r"><span>Pagamento</span><span>Boleto</span></div>
+            <div class="r"><span>Taxa administrativa</span><span>R$ 0,00</span></div>
+            <div class="r dest"><span>Vai para a obra</span><span>100%</span></div>
+          </div>
+          <div class="impact">
+            <div class="lbl">Sua doação constrói</div>
+            <div class="txt">R$ 1.000 cobre um trecho da laje do mezanino do salão principal.</div>
+          </div>
+          <button class="btnConfirm loading" type="button" disabled aria-live="polite">
+            <span>Processando</span>
+            <span class="dots"><i></i><i></i><i></i></span>
+          </button>
+          <p class="demoNote">Ambiente de testes do processador de pagamento — nenhum valor real é cobrado nesta simulação.</p>
+        </div>
+        <div class="pixAlt">
+          <div class="t">Prefere transferir direto?</div>
+          <div class="d">Pix CNPJ <strong>32.703.146/0001-90</strong> · Igreja Batista Semear — conta exclusiva da construção.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

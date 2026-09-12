@@ -1,0 +1,46 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+  background: var(--teal);
+  color: #fff;
+}
+
+.wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 86px) 34px;
+}
+
+.blockquote {
+  margin: 0;
+  max-width: 1080px;
+}
+
+.text {
+  margin: 0;
+  font-size: clamp(25px, 4.4vw, 56px);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.footer {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.line {
+  width: 44px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.7);
+  display: block;
+}
+
+.cite {
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}

@@ -1,0 +1,122 @@
+.section {
+  border-bottom: 2px solid var(--ink);
+}
+
+.intro {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 78px) 34px 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
+  align-items: start;
+  padding-bottom: 44px;
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.eyebrowLine {
+  width: 40px;
+  height: 2px;
+  background: var(--teal);
+  display: block;
+}
+
+.eyebrowText {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(29px, 4.6vw, 56px);
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.body {
+  padding-top: 44px;
+}
+
+.bodyText {
+  margin: 0;
+  font-size: clamp(15px, 1.5vw, 17.5px);
+  line-height: 1.62;
+  color: var(--body-c);
+}
+
+.cards {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-top: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  padding: 34px 30px 40px;
+  border-right: 1px solid var(--line);
+  background: var(--ground);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardIndex {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: var(--teal);
+}
+
+.cardIcon {
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.cardTitle {
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 22px;
+  line-height: 1.1;
+}
+
+.cardDesc {
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--body-c);
+}
+
+.cardDado {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 2px solid var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal-deep);
+}

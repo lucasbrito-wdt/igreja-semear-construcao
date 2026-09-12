@@ -1,0 +1,163 @@
+/* Header (4 estagios responsivos) e Hero. */
+
+/* ═══════════ HEADER — 4 estágios ═══════════ */
+.smHeadRow {
+  gap: clamp(14px, 2.2vw, 36px) !important;
+}
+
+@media (max-width: 1120px) {
+  .smNav {
+    gap: 17px !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.1em !important;
+  }
+}
+/* trilho de índice: nav vira segunda linha rolável */
+@media (max-width: 960px) {
+  :root {
+    --hdr: 112px;
+  }
+  .smHeadRow {
+    flex-wrap: wrap;
+    height: auto !important;
+    padding-top: 12px !important;
+    padding-bottom: 10px !important;
+    row-gap: 10px;
+  }
+  .smNav {
+    order: 3;
+    width: 100%;
+    margin-left: 0 !important;
+    gap: 20px !important;
+    font-size: 11px !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+  .smNav::-webkit-scrollbar {
+    display: none;
+  }
+  .smNav a {
+    flex: none;
+    padding: 5px 0;
+  }
+}
+/* telefone: header de ação, uma linha só */
+@media (max-width: 720px) {
+  :root {
+    --hdr: 62px;
+  }
+  .smNav {
+    display: none !important;
+  }
+  .smHeadRow {
+    flex-wrap: nowrap !important;
+    height: 62px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    gap: 12px !important;
+    justify-content: space-between;
+  }
+  .smBrandSub {
+    display: none;
+  }
+  .smCta {
+    height: 44px !important;
+    padding: 0 16px !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.09em !important;
+  }
+}
+@media (max-width: 400px) {
+  .smBrandName {
+    font-size: 14px !important;
+  }
+  .smCta {
+    padding: 0 13px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.06em !important;
+  }
+}
+@media (max-width: 340px) {
+  :root {
+    --gut: 13px;
+  }
+  .smBrandName {
+    font-size: 12.5px !important;
+    letter-spacing: 0 !important;
+  }
+  .smHeadRow {
+    gap: 8px !important;
+  }
+  .smCta {
+    padding: 0 10px !important;
+    font-size: 9.5px !important;
+    letter-spacing: 0.04em !important;
+  }
+  .smMark {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+/* ═══════════ HERO ═══════════ */
+.smHeroSec {
+  min-height: min(88vh, 660px) !important;
+}
+@supports (min-height: 100svh) {
+  .smHeroSec {
+    min-height: min(88svh, 660px) !important;
+  }
+}
+@media (max-width: 900px) {
+  .smGrid {
+    background-size: calc(100% / 3) 100% !important;
+    opacity: 0.65;
+  }
+}
+@media (max-width: 720px) {
+  @supports (min-height: 100svh) {
+    .smHeroSec {
+      min-height: min(90svh, 620px) !important;
+    }
+  }
+}
+/* telefone deitado: nada de hero de tela cheia */
+@media (max-height: 540px) and (orientation: landscape) {
+  .smHeroSec {
+    min-height: 0 !important;
+  }
+  .smHeroPad {
+    padding-top: 96px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+/* barra de progresso + stats do hero */
+@media (max-width: 1020px) {
+  .smHero {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px 26px !important;
+  }
+  .smHero > div:first-child {
+    grid-column: 1 / -1 !important;
+  }
+}
+@media (max-width: 900px) {
+  .smHero > div {
+    border-left: 0 !important;
+    padding-left: 0 !important;
+  }
+  .smHero > div + div {
+    border-top: 1px solid rgba(246, 243, 238, 0.26);
+    padding-top: 16px;
+  }
+}
+@media (max-width: 340px) {
+  .smHero {
+    grid-template-columns: 1fr !important;
+  }
+}

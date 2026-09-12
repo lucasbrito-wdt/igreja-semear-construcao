@@ -1,0 +1,447 @@
+/* Telas pos-envio /doar — estende design/doacao-pagamento.html com os tokens de src/styles/tokens.css. */
+
+.page {
+  --erro: #a8341c;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.ticket {
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  padding: clamp(28px, 4.4vw, 54px) clamp(20px, 4vw, 50px) clamp(40px, 5.4vw, 60px);
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.statusHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.statusIcon {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+}
+.statusIcon.ok {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+.statusIcon.warn {
+  background: var(--ground);
+  border-color: var(--erro);
+}
+.statusIcon.wait {
+  background: var(--sand);
+}
+.statusTitle {
+  margin: 0;
+  font-size: clamp(24px, 3.4vw, 36px);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  outline: none;
+}
+.statusBody {
+  margin: 20px 0 0;
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--body-c);
+}
+.waitTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--teal-deep);
+}
+
+/* Pix aguardando */
+.pixGrid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+  min-width: 0;
+}
+.pixGrid > div {
+  min-width: 0;
+}
+@media (max-width: 620px) {
+  .pixGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.qrBox {
+  border: 2px solid var(--ink);
+  padding: 14px;
+  background: #fff;
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+  position: relative;
+}
+.qrBox img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.qrBlocksOverlay {
+  position: absolute;
+  inset: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+.qrBlock {
+  background: #fff;
+  opacity: 0;
+}
+.qrCaption {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--mute);
+  text-align: center;
+}
+.copyRow {
+  display: flex;
+  align-items: stretch;
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  min-width: 0;
+}
+.copyRow code {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  font-family: "SF Mono", ui-monospace, Consolas, monospace;
+  font-size: 12.5px;
+  color: var(--body-c);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.copyBtn {
+  flex: none;
+  border: 0;
+  border-left: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--ground);
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  min-height: 52px;
+  white-space: nowrap;
+}
+.copyBtn.copied {
+  background: var(--teal);
+}
+.countRow {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--mute);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.countRow strong {
+  color: var(--ink);
+  font-weight: 800;
+}
+.progressTrack {
+  margin-top: 8px;
+  height: 3px;
+  background: var(--line);
+  width: 100%;
+}
+.progressBar {
+  height: 100%;
+  background: var(--teal);
+  transform-origin: left;
+  transition: width 1s linear;
+}
+.steps3 {
+  margin-top: 28px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  min-width: 0;
+}
+.step .num {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+.step p {
+  min-width: 0;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--body-c);
+  padding-top: 4px;
+}
+.miniSummary {
+  margin-top: 26px;
+  border-top: 1px solid #cdc6bb;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 13.5px;
+  min-width: 0;
+}
+.miniSummary span:first-child {
+  color: var(--mute);
+}
+.miniSummary span:last-child {
+  font-weight: 800;
+}
+.expiredBox {
+  margin-top: 24px;
+  border: 2px solid var(--erro);
+  padding: 16px 18px;
+}
+.expiredBox p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  color: var(--body-c);
+}
+
+/* Obrigado / cartao aprovado */
+.doneGrid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 40px;
+  align-items: start;
+  min-width: 0;
+}
+.doneGrid > div {
+  min-width: 0;
+}
+.btnRow {
+  margin-top: 30px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.btnPrimary {
+  background: var(--ink);
+  color: var(--ground);
+  border: 0;
+  min-height: 56px;
+  padding: 0 26px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  text-align: left;
+}
+.btnGhost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  min-height: 56px;
+  padding: 0 26px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  text-align: left;
+}
+.obraArt {
+  border: 2px solid var(--ink);
+  background: var(--sand);
+  position: relative;
+  min-height: 160px;
+}
+.sementesCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.checkWrap {
+  width: 66px;
+  height: 66px;
+  background: var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.metaCard {
+  padding: 20px 22px;
+  border-top: 2px solid var(--ink);
+  background: var(--ground);
+}
+.metaCard .lbl {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+.metaCard .txt {
+  font-size: 15px;
+  margin-top: 9px;
+  line-height: 1.45;
+}
+.subBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  border: 2px solid var(--teal);
+  color: var(--teal-deep);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  padding: 8px 12px;
+}
+.subBadge .sw {
+  width: 7px;
+  height: 7px;
+  background: var(--teal);
+  display: block;
+}
+.cardSummary {
+  margin-top: 22px;
+  border-top: 1px solid #cdc6bb;
+  padding-top: 16px;
+}
+.cardSummary .r {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  font-size: 13.5px;
+  gap: 12px;
+}
+.cardSummary .r span:first-child {
+  color: var(--mute);
+}
+.cardSummary .r span:last-child {
+  font-weight: 800;
+  text-align: right;
+}
+
+/* Boleto */
+.barcodeBox {
+  margin-top: 28px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  padding: 18px 16px;
+}
+.digitLine {
+  margin-top: 16px;
+  display: flex;
+  align-items: stretch;
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.digitLine code {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 14px 16px;
+  font-family: "SF Mono", ui-monospace, Consolas, monospace;
+  font-size: 12.5px;
+  color: var(--body-c);
+  word-break: break-all;
+}
+.boletoMeta {
+  margin-top: 22px;
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.boletoMeta div span {
+  display: block;
+}
+.boletoMeta .k {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--mute);
+}
+.boletoMeta .v {
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+.noteBox {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--mute);
+}
+
+/* Erro / recusado */
+.pixAlt {
+  margin-top: 24px;
+  border: 2px solid var(--ink);
+  background: var(--sand);
+  padding: 18px 20px;
+}
+.pixAlt .t {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+.pixAlt .d {
+  font-size: 13.5px;
+  color: var(--body-c);
+  margin-top: 7px;
+  line-height: 1.55;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

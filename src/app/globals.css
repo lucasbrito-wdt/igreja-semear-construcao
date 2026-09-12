@@ -1,0 +1,8 @@
+/*
+ * Estilos globais da campanha, portados de design/prototype/index.html.
+ * Divididos por responsabilidade em src/styles/ para manter cada arquivo enxuto.
+ */
+@import "../styles/tokens.css";
+@import "../styles/header-hero.css";
+@import "../styles/sections.css";
+@import "../styles/fx.css";

@@ -1,0 +1,565 @@
+/* Formulario /doar — estende design/doacao-form.html com os tokens de src/styles/tokens.css. */
+
+.intro {
+  --erro: #a8341c;
+  margin-bottom: clamp(30px, 4vw, 44px);
+}
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.eyebrowLine {
+  width: 40px;
+  height: 2px;
+  background: var(--teal);
+  display: block;
+}
+.eyebrowText {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+.title {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 0.97;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  max-width: 760px;
+}
+
+.form {
+  --erro: #a8341c;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  border: 2px solid var(--ink);
+}
+
+.main {
+  container-type: inline-size;
+  container-name: formcol;
+  padding: clamp(28px, 4.2vw, 50px) clamp(18px, 4vw, 44px) clamp(40px, 5.4vw, 64px);
+  border-right: 2px solid var(--ink);
+  min-width: 0;
+}
+
+.stepBlock {
+  margin-top: 38px;
+}
+.stepBlock:first-child {
+  margin-top: 0;
+}
+.stepLabel {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--mute);
+  margin-bottom: 14px;
+}
+.hint {
+  margin: 13px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--body-c);
+}
+
+/* 01 — frequencia */
+.freqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  border: 2px solid var(--ink);
+}
+.freqBtn {
+  border: 0;
+  padding: 22px 24px;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+}
+.freqGrid > .freqBtn:first-child {
+  border-right: 2px solid var(--ink);
+}
+.freqBtn[data-selected="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+.freqBtnTitle {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+}
+.freqBtnDesc {
+  font-size: 13px;
+  margin-top: 5px;
+  opacity: 0.72;
+}
+
+/* 02 — valor */
+.valGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.valBtn {
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  color: var(--ink);
+  padding: 19px 17px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.valBtn[data-selected="true"] {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+.valBtnTitle {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+.valBtnDesc {
+  font-size: 11.5px;
+  margin-top: 6px;
+  line-height: 1.35;
+  opacity: 0.82;
+}
+.customVal {
+  margin-top: 14px;
+  display: flex;
+  align-items: stretch;
+  border: 2px solid var(--ink);
+}
+.customVal[data-selected="true"] {
+  border-color: var(--teal);
+}
+.customValPrefix {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: var(--ink);
+  color: var(--ground);
+  font-size: 14px;
+  font-weight: 800;
+}
+.customVal input {
+  flex: 1;
+  border: 0;
+  padding: 17px;
+  font-size: 17px;
+  font-weight: 600;
+  background: var(--ground);
+  color: var(--ink);
+  outline: none;
+  min-width: 0;
+  font-family: inherit;
+}
+
+/* 03 — dados */
+.dadosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  gap: 12px;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.field input {
+  border: 2px solid var(--ink);
+  padding: 16px;
+  font-size: 15px;
+  background: var(--ground);
+  outline: none;
+  width: 100%;
+  min-height: 52px;
+  font-family: inherit;
+}
+.field.err input {
+  border-color: var(--erro);
+}
+.fieldHelp {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--mute);
+}
+.fieldErrMsg {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--erro);
+  font-weight: 700;
+}
+.consent {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: var(--body-c);
+  cursor: pointer;
+}
+.consent input {
+  margin-top: 2px;
+  accent-color: var(--teal);
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+/* 04 — pagamento */
+.payGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 12px;
+}
+.payBtn {
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  color: var(--ink);
+  padding: 17px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.payBtn[data-selected="true"] {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+.payBtnTitle {
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.payBtnDesc {
+  font-size: 11.5px;
+  margin-top: 6px;
+  opacity: 0.82;
+}
+.payNote {
+  margin: 13px 0 0;
+  font-size: 13px;
+  color: var(--mute);
+}
+
+/* painel de cartao */
+.cardPanel {
+  margin-top: 16px;
+  border: 2px solid var(--ink);
+  background: var(--sand);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+.numWrap {
+  position: relative;
+}
+.numWrap input {
+  padding-right: 58px;
+}
+.cardFlag {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 40px;
+  height: 24px;
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0 4px;
+}
+.flagNote {
+  margin-top: -4px;
+  font-size: 11.5px;
+  color: var(--mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.flagNote .sw {
+  width: 8px;
+  height: 8px;
+  background: var(--teal);
+  flex: none;
+  display: block;
+}
+.trustLine {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding-top: 6px;
+  border-top: 1px solid #cdc6bb;
+}
+.trustLine svg {
+  flex: none;
+  margin-top: 2px;
+}
+.trustLine span {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--mute);
+}
+
+/* aside — resumo */
+.aside {
+  --erro: #a8341c;
+  background: var(--sand);
+  padding: clamp(26px, 3.6vw, 50px) clamp(18px, 3.2vw, 38px) clamp(40px, 5.4vw, 64px);
+  min-width: 0;
+}
+.asideSticky {
+  position: sticky;
+  top: 100px;
+}
+.summaryCard {
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  padding: 30px 28px;
+}
+.summaryHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.summaryLbl {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal-deep);
+}
+.sandbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  color: var(--mute);
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  padding: 5px 9px;
+}
+.sandbox .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--teal);
+  flex: none;
+  display: block;
+}
+.valueRow {
+  margin-top: 22px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.valueRow .n {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.valueRow .s {
+  font-size: 14px;
+  color: var(--mute);
+  font-weight: 700;
+}
+.metaTable {
+  margin-top: 24px;
+  border-top: 1px solid #cdc6bb;
+}
+.metaTable .r {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #cdc6bb;
+  font-size: 13.5px;
+  gap: 12px;
+}
+.metaTable .r:last-child {
+  border-bottom: 0;
+}
+.metaTable .r span:first-child {
+  color: var(--mute);
+}
+.metaTable .r span:last-child {
+  font-weight: 800;
+  text-align: right;
+}
+.metaTable .dest span:last-child {
+  color: var(--teal-deep);
+  font-weight: 900;
+}
+.impact {
+  margin-top: 20px;
+  background: var(--teal);
+  color: #fff;
+  padding: 18px 20px;
+}
+.impact .lbl {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.75);
+}
+.impact .txt {
+  font-size: 15px;
+  line-height: 1.45;
+  margin-top: 8px;
+  font-weight: 700;
+}
+.btnConfirm {
+  margin-top: 20px;
+  width: 100%;
+  background: var(--ink);
+  color: var(--ground);
+  border: 0;
+  min-height: 60px;
+  padding: 0 24px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.btnConfirm:disabled {
+  background: var(--mute);
+  cursor: not-allowed;
+}
+.dots {
+  display: inline-flex;
+  gap: 5px;
+}
+.dots i {
+  width: 6px;
+  height: 6px;
+  background: var(--ground);
+  display: block;
+  opacity: 0.3;
+}
+.formErr {
+  margin: 13px 0 0;
+  font-size: 13px;
+  color: var(--erro);
+  font-weight: 700;
+}
+.privacyNote {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--mute);
+}
+.pixAlt {
+  margin-top: 20px;
+  border: 2px solid var(--ink);
+  background: var(--ground);
+  padding: 16px 18px;
+}
+.pixAlt .t {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+.pixAlt .d {
+  font-size: 13px;
+  color: var(--body-c);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+  .main {
+    border-right: 0;
+    border-bottom: 2px solid var(--ink);
+  }
+  .asideSticky {
+    position: static;
+  }
+}
+@container formcol (max-width: 560px) {
+  .valGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .payGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@container formcol (max-width: 440px) {
+  .freqGrid {
+    grid-template-columns: 1fr;
+  }
+  .freqGrid > .freqBtn:first-child {
+    border-right: 0;
+    border-bottom: 2px solid var(--ink);
+  }
+  .dadosGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@container formcol (max-width: 320px) {
+  .valGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@supports not (container-type: inline-size) {
+  @media (max-width: 640px) {
+    .valGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .payGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .freqGrid {
+      grid-template-columns: 1fr;
+    }
+    .freqGrid > .freqBtn:first-child {
+      border-right: 0;
+      border-bottom: 2px solid var(--ink);
+    }
+    .dadosGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.fieldHelpMsg {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #666;
+}
