@@ -15,7 +15,7 @@ const archivo = Archivo({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const heroDescription =
-  "O novo templo da Igreja Semear já tem terreno e fundação prontos. Agora é a estrutura que sobe — pilares, lajes e a cobertura do auditório — e é o que a sua doação constrói. 1.200 lugares, oito salas para as crianças e um espaço aberto ao bairro de segunda a sábado.";
+  "O novo templo da Igreja Semear já tem terreno e fundação prontos. Agora é a estrutura que sobe — pilares, lajes e a cobertura do auditório — e é o que a sua doação constrói. 1.500 lugares, salas próprias para as crianças e um espaço aberto ao bairro de segunda a sábado.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

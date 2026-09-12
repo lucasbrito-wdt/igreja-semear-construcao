@@ -3,7 +3,7 @@ import { Marquee } from "@/components/home/Marquee";
 import { Porque } from "@/components/home/Porque";
 import { Projeto } from "@/components/home/Projeto";
 import { Etapas } from "@/components/home/Etapas";
-import { Impacto } from "@/components/home/Impacto";
+
 import { Citacao } from "@/components/home/Citacao";
 import { Contas } from "@/components/home/Contas";
 import { Visite } from "@/components/home/Visite";
@@ -22,7 +22,6 @@ export default async function Home() {
       <Porque />
       <Projeto />
       <Etapas />
-      <Impacto />
       <Citacao />
       <Contas stats={stats} />
       <Visite />

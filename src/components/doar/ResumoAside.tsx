@@ -67,10 +67,7 @@ export function ResumoAside({
               <span>100%</span>
             </div>
           </div>
-          <div className={styles.impact}>
-            <div className={styles.lbl}>Sua doação constrói</div>
-            <div className={styles.txt}>{form.impacto}</div>
-          </div>
+
           <button
             type="button"
             data-testid="btn-confirmar"

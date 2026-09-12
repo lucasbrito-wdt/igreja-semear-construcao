@@ -101,10 +101,9 @@ export function TelaObrigado({
               <canvas ref={canvasRef} className={styles.sementesCanvas} aria-hidden="true" />
             </div>
             <div className={styles.metaCard}>
-              <div className={styles.lbl}>Meta atualizada</div>
+              <div className={styles.lbl}>Total arrecadado na fase</div>
               <div className={styles.txt}>
-                {formatBRL(campaignStats.arrecadado)} de {formatBRL(campaignStats.meta)} —{" "}
-                {campaignStats.pct}% do orçamento da estrutura.
+                {formatBRL(campaignStats.arrecadado)}
               </div>
             </div>
           </div>

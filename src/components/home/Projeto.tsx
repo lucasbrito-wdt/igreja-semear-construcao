@@ -5,9 +5,7 @@ import type { CounterFormat } from "@/lib/fx/format";
 
 /** Numeros da obra que tem contraparte numerica para o count-up (ver useCountUp). */
 const NUMERO_COUNT: Record<string, { value: number; format: CounterFormat }> = {
-  "1.200": { value: 1200, format: "int-dot" },
-  "2.400 m²": { value: 2400, format: "m2" },
-  "8": { value: 8, format: "int" },
+  "1.500": { value: 1500, format: "int-dot" },
 };
 
 /** Secao "O projeto, sala por sala": galeria do render oficial e numeros da obra. */
@@ -29,11 +27,11 @@ export function Projeto() {
       <div className={`smWrap smMedia ${styles.gallery}`}>
         <figure className={`smFig smFigMain ${styles.figure} ${styles.figureMain}`} data-fx="gallery-item">
           <div className={styles.parallaxLayer} data-fx="gallery-parallax">
-            <Image src="/images/auditorio.jpg" alt="Auditório com 1.200 lugares" fill sizes="(max-width: 860px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+            <Image src="/images/auditorio.jpg" alt="Auditório com 1.500 lugares" fill sizes="(max-width: 860px) 100vw, 50vw" style={{ objectFit: "cover" }} />
           </div>
           <figcaption className={`${styles.caption} ${styles.captionMain}`}>
             <div className={`${styles.captionEyebrow} ${styles.captionEyebrowMain}`}>01 — Auditório</div>
-            <div className={styles.captionTitleMain}>1.200 assentos, acústica tratada</div>
+            <div className={styles.captionTitleMain}>1.500 assentos, acústica tratada</div>
             <p className={styles.captionDesc}>
               Piso em madeira, treliça metálica aparente e visão livre do palco em qualquer fileira. Um culto
               passa a caber onde hoje são dois.

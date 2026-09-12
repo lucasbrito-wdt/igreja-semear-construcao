@@ -43,7 +43,7 @@ export function TelaPixAguardando({
       <div className={styles.ticket}>
         <div className={styles.statusHead}>
           <div className={`${styles.statusIcon} ${styles.wait}`}>
-            <span className="smDot" aria-hidden="true" />
+            <span className={`smDot ${styles.waitDot}`} aria-hidden="true" />
           </div>
           <div>
             <span className={styles.waitTag}>Aguardando pagamento</span>

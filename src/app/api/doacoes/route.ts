@@ -29,6 +29,10 @@ function getDonorIp(request: Request): string | null {
     forwardedFor ? forwardedFor.split(",")[0] : request.headers.get("x-real-ip")
   )?.trim();
 
+  if (!candidate && process.env.NODE_ENV !== "production") {
+    return "127.0.0.1";
+  }
+
   return candidate && isIP(candidate) !== 0 ? candidate : null;
 }
 

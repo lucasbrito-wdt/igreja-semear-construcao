@@ -32,7 +32,8 @@ const SEM_OFFSET = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})$/;
  *   America/Sao_Paulo, UTC-3 fixo (sem horario de verao desde 2019).
  * Qualquer outro formato retorna `null` (o chamador aplica o teto de 60min).
  */
-function parseExpiraEm(expiraEm: string): number | null {
+function parseExpiraEm(expiraEm: string | null | undefined): number | null {
+  if (!expiraEm) return null;
   const valor = expiraEm.trim();
 
   if (ISO_COM_OFFSET.test(valor)) {
@@ -70,7 +71,7 @@ function calcularRestante(expiraEmMs: number): number {
  */
 export function usePixPolling(
   doacaoId: string,
-  expiraEm: string,
+  expiraEm: string | null | undefined,
   onPago: () => void
 ): UsePixPollingResult {
   const [inicioMs] = useState(() => Date.now());

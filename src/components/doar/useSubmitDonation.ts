@@ -75,7 +75,11 @@ export function useSubmitDonation() {
 
       if (response.status === 201) {
         idempotencia.invalidar();
-        return { kind: "sucesso", doacao: body as unknown as DoacaoResponse };
+        const doacao = body as unknown as DoacaoResponse;
+        if (doacao.status === "falha") {
+           return { kind: "erro-provedor", message: MENSAGEM_PROVEDOR };
+        }
+        return { kind: "sucesso", doacao };
       }
       if (response.status === 422) {
         idempotencia.invalidar();

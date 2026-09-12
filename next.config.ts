@@ -32,7 +32,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data:",
   // next/font (Archivo, next/font/google) faz self-host em /_next/static/media no
   // build; não há requisição a fonts.googleapis.com em runtime.
-  "font-src 'self'",
+  "font-src 'self' data:",
   connectSrc,
   "object-src 'none'",
   "base-uri 'self'",

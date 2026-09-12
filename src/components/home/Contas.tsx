@@ -46,10 +46,7 @@ export function Contas({ stats }: Readonly<ContasProps>) {
                 </div>
               ))}
             </div>
-            <div className={styles.total}>
-              <span className={styles.totalLabel}>Total da fase</span>
-              <span className={styles.totalValue}>{formatBRL(stats.meta)}</span>
-            </div>
+
           </div>
           <TransitionLink href="/doar" className={`smLift ${styles.cta}`} data-fx="magnetic">
             Fazer parte da obra

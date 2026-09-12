@@ -31,7 +31,7 @@ export function ValorStep({ form }: { form: DonationFormState }) {
             onClick={() => form.selecionarValor(v.valor)}
           >
             <div className={styles.valBtnTitle}>{v.label}</div>
-            <div className={styles.valBtnDesc}>{v.nota}</div>
+
           </button>
         ))}
       </div>

@@ -22,7 +22,7 @@ export function proxy(request: NextRequest): NextResponse {
     // setam atributo style="" inline, sem mecanismo de nonce para isso).
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
-    "font-src 'self'",
+    "font-src 'self' data:",
     `connect-src 'self'${isProd ? "" : " ws: wss:"}`,
     "object-src 'none'",
     "base-uri 'self'",
