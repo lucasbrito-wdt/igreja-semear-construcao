@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-de76ab87-ba26-4c32-bcb8-071c3442a986/styles.css">
+<script src="_ds/modernist-de76ab87-ba26-4c32-bcb8-071c3442a986/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Expanded:wght@700;800;900&display=swap">
+<style>
+/* ═══════════ TOKENS ═══════════ */
+:root{
+  --ink:#1a1815; --ground:#f6f3ee; --sand:#e9e4da;
+  --teal:#0e8a7d; --teal-deep:#0a5f57; --teal-lit:#4fd6c4;
+  --line:#d6d0c6; --mute:#6b6560; --body-c:#3f3b36;
+  --gut:clamp(16px,3.6vw,34px);
+  --hdr:80px;
+  --tap:44px;
+  color-scheme:light;
+}
+
+/* ═══════════ BASE ═══════════ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + 14px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+img,svg{max-width:100%}
+a{color:var(--ink);text-decoration:none;-webkit-tap-highlight-color:rgba(14,138,125,.16)}
+button{-webkit-tap-highlight-color:rgba(14,138,125,.16)}
+input{font-family:Archivo,sans-serif}
+button:focus-visible,input:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+::selection{background:#bfe4de}
+
+/* filhos de grid/flex precisam poder encolher — evita estouro horizontal */
+.smHero>*,.smSplit>*,.smForm>*,.smFoot>*,.smCards3>*,.smNums4>*,.smSteps5>*,
+.smTiers4>*,.smMedia>*,.smDados>*,.smVal3>*,.smPay3>*,.smFreq>*,.smDone>*{min-width:0}
+.smMark{flex:none}
+/* a arte ocupa 84% do PNG, entao 80% da caixa deixa a pomba com o mesmo peso optico do lockup */
+.smMarkImg{width:80%;height:80%;object-fit:contain;display:block}
+/* linha social do rodape: quadrados de 48px, alvo de toque cheio */
+.smIcon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex:none;border:2px solid rgba(246,243,238,.32);color:#f6f3ee}
+.smIcon svg{width:21px;height:21px;display:block}
+.smIcon:active{transform:scale(.94)}
+.smNav a{white-space:nowrap}
+.smBrandName{white-space:nowrap}
+
+/* ═══════════ GUTTER FLUIDO + SAFE AREA ═══════════ */
+.smWrap{
+  padding-left:max(var(--gut),env(safe-area-inset-left,0px))!important;
+  padding-right:max(var(--gut),env(safe-area-inset-right,0px))!important;
+}
+
+/* ═══════════ MOVIMENTO ═══════════ */
+@keyframes smRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes smWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes smGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes smKen{from{transform:scale(1.14) translate3d(0,0,0)}to{transform:scale(1) translate3d(0,0,0)}}
+@keyframes smPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes smMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.smMarquee{display:flex;width:max-content;animation:smMarquee 34s linear infinite}
+.smR{animation:smRise .8s cubic-bezier(.16,.84,.24,1) both}
+.smR2{animation:smRise .8s .12s cubic-bezier(.16,.84,.24,1) both}
+.smR3{animation:smRise .8s .24s cubic-bezier(.16,.84,.24,1) both}
+.smR4{animation:smRise .8s .36s cubic-bezier(.16,.84,.24,1) both}
+.smWipe{animation:smWipe 1s .2s cubic-bezier(.16,.84,.24,1) both}
+.smBar{transform-origin:left;animation:smGrow 1.6s .4s cubic-bezier(.16,.84,.24,1) both}
+.smKen{animation:smKen 18s ease-out both}
+.smDot{animation:smPulse 2s ease-in-out infinite}
+.smLift{transition:transform .25s cubic-bezier(.16,.84,.24,1),background .2s,color .2s,border-color .2s}
+.smUl{position:relative}
+.smUl::after{content:"";position:absolute;left:0;right:100%;bottom:-5px;height:2px;background:var(--teal);transition:right .3s cubic-bezier(.16,.84,.24,1)}
+.smFig img{transition:transform .8s cubic-bezier(.16,.84,.24,1)}
+
+@media (hover:hover) and (pointer:fine){
+  a:hover{color:var(--teal)}
+  .smLift:hover{transform:translateY(-3px)}
+  .smUl:hover::after{right:0}
+  .smFig:hover img{transform:scale(1.05)}
+  .smIcon:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+}
+@media (hover:none){
+  .smLift:active{transform:scale(.985)}
+  .smTiers4>div:active,.smVal3 button:active,.smPay3 button:active{transform:scale(.985)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .smMarquee{animation:none!important}
+  .smKen{animation:none!important;transform:none!important}
+  .smDot{opacity:1!important}
+}
+
+/* ═══════════ HEADER — 4 estágios ═══════════ */
+.smHeadRow{gap:clamp(14px,2.2vw,36px)!important}
+
+@media (max-width:1120px){
+  .smNav{gap:17px!important;font-size:10.5px!important;letter-spacing:.1em!important}
+}
+/* trilho de índice: nav vira segunda linha rolável */
+@media (max-width:960px){
+  :root{--hdr:112px}
+  .smHeadRow{flex-wrap:wrap;height:auto!important;padding-top:12px!important;padding-bottom:10px!important;row-gap:10px}
+  .smNav{
+    order:3;width:100%;margin-left:0!important;gap:20px!important;font-size:11px!important;
+    overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-bottom:4px;
+    -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);
+    mask-image:linear-gradient(90deg,#000 88%,transparent);
+  }
+  .smNav::-webkit-scrollbar{display:none}
+  .smNav a{flex:none;padding:5px 0}
+}
+/* telefone: header de ação, uma linha só */
+@media (max-width:720px){
+  :root{--hdr:62px}
+  .smNav{display:none!important}
+  .smHeadRow{flex-wrap:nowrap!important;height:62px!important;padding-top:0!important;padding-bottom:0!important;gap:12px!important;justify-content:space-between}
+  .smBrandSub{display:none}
+  .smCta{height:44px!important;padding:0 16px!important;font-size:10.5px!important;letter-spacing:.09em!important}
+}
+@media (max-width:400px){
+  .smBrandName{font-size:14px!important}
+  .smCta{padding:0 13px!important;font-size:10px!important;letter-spacing:.06em!important}
+}
+@media (max-width:340px){
+  :root{--gut:13px}
+  .smBrandName{font-size:12.5px!important;letter-spacing:0!important}
+  .smHeadRow{gap:8px!important}
+  .smCta{padding:0 10px!important;font-size:9.5px!important;letter-spacing:.04em!important}
+  .smMark{width:30px!important;height:30px!important}
+}
+
+/* ═══════════ HERO ═══════════ */
+.smHeroSec{min-height:min(88vh,660px)!important}
+@supports (min-height:100svh){.smHeroSec{min-height:min(88svh,660px)!important}}
+@media (max-width:900px){.smGrid{background-size:calc(100% / 3) 100%!important;opacity:.65}}
+@media (max-width:720px){
+  @supports (min-height:100svh){.smHeroSec{min-height:min(90svh,620px)!important}}
+}
+/* telefone deitado: nada de hero de tela cheia */
+@media (max-height:540px) and (orientation:landscape){
+  .smHeroSec{min-height:0!important}
+  .smHeroPad{padding-top:96px!important;padding-bottom:16px!important}
+}
+
+/* barra de progresso + stats do hero */
+@media (max-width:1020px){
+  .smHero{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px 26px!important}
+  .smHero>div:first-child{grid-column:1/-1!important}
+}
+@media (max-width:900px){
+  .smHero>div{border-left:0!important;padding-left:0!important}
+  .smHero>div+div{border-top:1px solid rgba(246,243,238,.26);padding-top:16px}
+}
+@media (max-width:340px){
+  .smHero{grid-template-columns:1fr!important}
+}
+
+/* ═══════════ MARQUEE ═══════════ */
+@media (max-width:720px){.smMarquee{animation-duration:24s;font-size:11px!important;letter-spacing:.16em!important;padding:13px 0!important}}
+
+/* ═══════════ SPLITS (por que / impacto / contas / visite) ═══════════ */
+@media (max-width:880px){
+  .smSplit{grid-template-columns:1fr!important;gap:26px!important}
+  .smSplitBody{padding-top:0!important}
+}
+
+/* ═══════════ CARDS / NÚMEROS / ETAPAS ═══════════ */
+/* deixa o auto-fit trabalhar; só limpamos o filete da última coluna */
+.smCards3>div:last-child,.smNums4>div:last-child,.smSteps5>div:last-child{border-right:0!important}
+@media (max-width:1180px){
+  .smCards3{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))!important}
+  .smSteps5{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))!important}
+  .smNums4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important}
+}
+@media (max-width:640px){
+  .smCards3,.smSteps5{grid-template-columns:1fr!important}
+  .smNums4{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .smCards3>div,.smSteps5>div,.smNums4>div{
+    border-right:0!important;padding-right:0!important;padding-left:0!important;
+    border-bottom:1px solid var(--line)!important;
+  }
+  .smCards3>div{padding-top:28px!important;padding-bottom:30px!important}
+  .smCards3>div:last-child,.smSteps5>div:last-child{border-bottom:0!important}
+  .smNums4>div:nth-last-child(-n+2){border-bottom:0!important}
+}
+@media (max-width:340px){
+  .smNums4{grid-template-columns:1fr!important}
+  .smNums4>div:last-child{border-bottom:0!important}
+}
+
+/* o respiro da galeria vira margem: sem tarja preta sob a ultima imagem */
+.smMedia{padding-bottom:0!important;margin-bottom:clamp(44px,6vw,78px)}
+
+/* legenda legivel sobre qualquer trecho claro do render */
+.smFigMain figcaption{background:linear-gradient(to top,rgba(10,14,13,.94) 0%,rgba(10,14,13,.78) 55%,rgba(10,14,13,0) 100%)!important}
+.smFigSub figcaption{background:linear-gradient(to top,rgba(10,14,13,.94) 0%,rgba(10,14,13,.72) 70%,rgba(10,14,13,0) 100%)!important;padding-top:34px!important}
+
+/* CTAs de largura total no telefone — alvo de toque cheio */
+@media (max-width:480px){
+  .smBtnRow{gap:10px!important}
+  .smBtnRow>*{flex:1 1 100%!important;justify-content:center!important;text-align:center!important}
+}
+
+/* ═══════════ GALERIA DO PROJETO ═══════════ */
+/* mosaico explicito: auto-fit gerava 4 colunas em telas largas e deixava um vazio */
+@media (min-width:1181px){
+  .smMedia{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .smFigMain{grid-row:span 2!important;grid-column:1!important;min-height:0!important}
+  .smFigSub{min-height:clamp(230px,19vw,310px)!important}
+}
+@media (max-width:1180px){
+  .smMedia figure{grid-row:auto!important}
+  .smFigMain{grid-column:1/-1!important;min-height:0!important;aspect-ratio:21/9}
+  .smFigSub{min-height:0!important;aspect-ratio:4/3}
+}
+@media (max-width:860px){
+  .smMedia{grid-template-columns:1fr!important}
+  .smFigMain{aspect-ratio:4/3}
+  .smFigSub{aspect-ratio:16/10}
+}
+@media (max-width:560px){
+  .smFigMain{aspect-ratio:3/4}
+  .smFigSub{aspect-ratio:4/3}
+  .smFigMain figcaption{padding:20px 18px!important}
+  .smFigSub figcaption{padding:16px 16px!important}
+}
+
+/* ═══════════ TIERS DE DOAÇÃO ═══════════ */
+@media (max-width:1180px){.smTiers4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))!important}}
+@media (max-width:620px){
+  .smTiers4{grid-template-columns:1fr!important}
+  .smTiers4>div{min-height:0!important;padding:24px 22px 22px!important}
+}
+
+/* ═══════════ FORMULÁRIO DE DOAÇÃO ═══════════ */
+/* os campos respondem à LARGURA DA COLUNA, não à do viewport */
+.smFormMain{container-type:inline-size;container-name:formcol}
+.smFormAside>div{top:calc(var(--hdr) + 22px)!important}
+
+.smFreq{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.smDados{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.smDados>input:first-child{grid-column:1/-1!important}
+.smDados input{font-size:16px!important;min-height:52px}
+.smVal3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.smPay3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.smVal3 button,.smPay3 button{min-height:var(--tap)}
+.smCustom input{font-size:17px!important;min-height:54px;width:100%}
+
+@container formcol (max-width:560px){
+  .smVal3{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .smPay3{grid-template-columns:1fr!important}
+}
+@container formcol (max-width:440px){
+  .smFreq{grid-template-columns:1fr!important}
+  .smFreq>button:first-child{border-right:0!important;border-bottom:2px solid var(--ink)!important}
+  .smDados{grid-template-columns:1fr!important}
+}
+@container formcol (max-width:320px){
+  .smVal3{grid-template-columns:1fr!important}
+}
+/* fallback p/ engines sem container queries */
+@supports not (container-type:inline-size){
+  @media (max-width:640px){
+    .smVal3{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    .smPay3{grid-template-columns:1fr!important}
+  }
+  @media (max-width:520px){
+    .smFreq{grid-template-columns:1fr!important}
+    .smFreq>button:first-child{border-right:0!important;border-bottom:2px solid var(--ink)!important}
+    .smDados{grid-template-columns:1fr!important}
+  }
+}
+
+/* empilhamento da coluna dupla — a borda acompanha o layout real */
+@media (max-width:900px){
+  .smForm{grid-template-columns:1fr!important}
+  .smFormMain{border-right:0!important;border-bottom:2px solid var(--ink)!important}
+  .smFormAside>div{position:static!important}
+}
+@media (max-width:600px){
+  .smFormPage{padding-left:0!important;padding-right:0!important}
+  .smForm,.smDone{border-left:0!important;border-right:0!important}
+}
+
+/* ═══════════ TELA DE CONFIRMAÇÃO ═══════════ */
+@media (max-width:900px){.smDone{grid-template-columns:1fr!important;gap:32px!important}}
+.smDoneImg{height:clamp(200px,46vw,340px)!important}
+
+/* ═══════════ VISITE — lista de links ═══════════ */
+@media (max-width:420px){
+  .smLinkRow a{font-size:11px!important;padding:15px 15px!important;letter-spacing:.1em!important;gap:10px}
+}
+
+/* ═══════════ RODAPÉ ═══════════ */
+@media (max-width:880px){
+  .smFoot{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:34px!important}
+  .smFoot>div:first-child{grid-column:1/-1!important}
+}
+@media (max-width:520px){.smFoot{grid-template-columns:1fr!important;gap:30px!important}}
+</style>
+</helmet>
+
+<div style="min-height:100dvh;background:#f6f3ee;overflow-x:clip">
+
+<header style="position:sticky;top:0;z-index:60;background:rgba(246,243,238,.94);backdrop-filter:blur(10px);border-bottom:2px solid #1a1815">
+<div class="smWrap smHeadRow" style="max-width:1400px;margin:0 auto;padding:0 34px;height:80px;display:flex;align-items:center;gap:36px">
+<div onClick="{{ goHome }}" onKeyDown="{{ goHomeKey }}" role="button" tabindex="0" aria-label="Voltar ao inicio da campanha" style="display:flex;align-items:center;gap:12px;cursor:pointer;flex:none">
+<span class="smMark" style="width:34px;height:34px;background:#0e8a7d;display:flex;align-items:center;justify-content:center;flex:none">
+<img src="uploads/Ligth%20Brand.png" alt="" class="smMarkImg">
+</span>
+<span style="display:flex;flex-direction:column;line-height:1">
+<span class="smBrandName" style="font-size:16px;font-weight:900;letter-spacing:.02em;text-transform:uppercase">Igreja Semear</span>
+<span class="smBrandSub" style="font-size:9.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#0a5f57;margin-top:3px">Guarabira · PB</span>
+</span>
+</div>
+<nav class="smNav" style="display:flex;gap:26px;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.13em;margin-left:auto">
+<a class="smUl" href="#porque">Por que</a>
+<a class="smUl" href="#projeto">O projeto</a>
+<a class="smUl" href="#etapas">Etapas</a>
+<a class="smUl" href="#impacto">Sua doação</a>
+<a class="smUl" href="#contas">Transparência</a>
+<a class="smUl" href="#visite">Visite</a>
+</nav>
+<button onClick="{{ goDoar }}" class="smLift smCta" style="flex:none;background:#0e8a7d;color:#fff;border:0;height:46px;padding:0 24px;font-family:Archivo,sans-serif;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Quero doar</button>
+</div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main>
+
+<section class="smHeroSec" style="position:relative;border-bottom:2px solid #1a1815;background:#12100e;color:#f6f3ee;overflow:hidden;min-height:min(88vh,640px);display:flex;align-items:flex-end">
+<div style="position:absolute;inset:0">
+<img class="smKen" src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.27%20%281%29.jpeg" alt="Fachada do novo templo da Igreja Semear" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.72">
+</div>
+<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,14,13,.94) 0%,rgba(10,20,18,.62) 42%,rgba(10,20,18,.25) 100%)"></div>
+<div class="smGrid" style="position:absolute;top:0;bottom:0;left:50%;width:1400px;max-width:100%;transform:translateX(-50%);pointer-events:none;background-image:linear-gradient(90deg,rgba(246,243,238,.12) 1px,transparent 1px);background-size:calc(100% / 6) 100%"></div>
+<div class="smWrap smHeroPad" style="position:relative;width:100%;max-width:1400px;margin:0 auto;padding:clamp(84px,10vw,120px) 34px 0">
+<div class="smR" style="display:inline-flex;align-items:center;gap:10px;background:#0e8a7d;padding:9px 16px;margin-bottom:26px">
+<span class="smDot" style="width:7px;height:7px;background:#fff;border-radius:50%;display:block"></span>
+<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#fff">Campanha ativa · fase de estrutura</span>
+</div>
+<h1 class="smR" style="margin:0;font-size:clamp(38px,8.4vw,96px);line-height:.9;font-weight:900;letter-spacing:-.045em;max-width:1000px;text-wrap:balance">Cada tijolo<br>é uma semente.</h1>
+<p class="smR2" style="margin:26px 0 0;max-width:530px;font-size:clamp(15px,1.6vw,18px);line-height:1.55;color:rgba(246,243,238,.86)">O novo templo da Igreja Semear já tem terreno e fundação prontos. Agora é a estrutura que sobe — pilares, lajes e a cobertura do auditório — e é o que a sua doação constrói. 1.200 lugares, oito salas para as crianças e um espaço aberto ao bairro de segunda a sábado.</p>
+<div class="smR3 smBtnRow" style="display:flex;gap:14px;margin-top:36px;flex-wrap:wrap">
+<button onClick="{{ goDoar }}" class="smLift" style="background:#0e8a7d;color:#fff;border:0;height:60px;padding:0 32px;font-family:Archivo,sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Doar agora</button>
+<a href="#projeto" class="smLift" style="display:inline-flex;align-items:center;height:60px;padding:0 32px;border:2px solid rgba(246,243,238,.5);color:#f6f3ee;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em">Ver o projeto</a>
+</div>
+<div class="smR4 smHero" style="margin-top:64px;border-top:2px solid rgba(246,243,238,.28);padding:26px 0 34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:30px;align-items:end">
+<div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:rgba(246,243,238,.6)">Arrecadado para a estrutura</span>
+<span style="font-size:12px;font-weight:800;color:#4fd6c4">{{ pct }}%</span>
+</div>
+<div style="display:flex;align-items:baseline;gap:12px">
+<span style="font-size:clamp(32px,4.4vw,50px);font-weight:900;letter-spacing:-.035em;line-height:1">{{ raisedFmt }}</span>
+<span style="font-size:14px;color:rgba(246,243,238,.65)">de {{ goalFmt }}</span>
+</div>
+<div style="margin-top:14px;height:12px;background:rgba(246,243,238,.16);position:relative">
+<div class="smBar" style="position:absolute;inset:0 auto 0 0;background:#0e8a7d;width:{{ pctW }}"></div>
+</div>
+</div>
+<div style="border-left:2px solid rgba(246,243,238,.28);padding-left:24px">
+<div style="font-size:clamp(26px,2.8vw,34px);font-weight:900;letter-spacing:-.03em">{{ doadores }}</div>
+<div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(246,243,238,.6);margin-top:6px">Famílias já doaram</div>
+</div>
+<div style="border-left:2px solid rgba(246,243,238,.28);padding-left:24px">
+<div style="font-size:clamp(26px,2.8vw,34px);font-weight:900;letter-spacing:-.03em">{{ mensais }}</div>
+<div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(246,243,238,.6);margin-top:6px">Doações mensais ativas</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="border-bottom:2px solid #1a1815;background:#0e8a7d;color:#fff;overflow:hidden">
+<div class="smMarquee" style="align-items:center;padding:16px 0;white-space:nowrap;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em">
+<sc-for list="{{ ticker }}" as="t" hint-placeholder-count="6">
+<span style="display:inline-flex;align-items:center;gap:16px;flex:none;padding-left:24px">{{ t.txt }}<span style="width:6px;height:6px;background:rgba(255,255,255,.6);display:block"></span></span>
+</sc-for>
+<sc-for list="{{ ticker }}" as="t" hint-placeholder-count="6">
+<span style="display:inline-flex;align-items:center;gap:16px;flex:none;padding-left:24px">{{ t.txt }}<span style="width:6px;height:6px;background:rgba(255,255,255,.6);display:block"></span></span>
+</sc-for>
+</div>
+</section>
+
+<section id="porque" style="border-bottom:2px solid #1a1815">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 0">
+<div class="smSplit" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:start;padding-bottom:44px">
+<div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+<span style="width:40px;height:2px;background:#0e8a7d;display:block"></span>
+<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Por que construir</span>
+</div>
+<h2 style="margin:0;font-size:clamp(29px,4.6vw,56px);line-height:.98;font-weight:900;letter-spacing:-.035em">A igreja cresceu.<br>O prédio, não.</h2>
+</div>
+<div class="smSplitBody" style="padding-top:44px">
+<p style="margin:0;font-size:clamp(15px,1.5vw,17.5px);line-height:1.62;color:#3f3b36">Nos domingos, realizamos dois cultos e ainda faltam cadeiras. As crianças se dividem em salas improvisadas atrás do palco, e os projetos com o bairro dependem de emprestar espaço de terceiros. O novo templo não é um prédio maior por vaidade: é a estrutura que permite receber quem chega e devolver algo à cidade durante a semana.</p>
+</div>
+</div>
+</div>
+<div class="smWrap smCards3" style="max-width:1400px;margin:0 auto;border-top:2px solid #1a1815;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<sc-for list="{{ motivos }}" as="m" hint-placeholder-count="3">
+<div class="smLift" style="padding:34px 30px 40px;border-right:1px solid #d6d0c6;background:#f6f3ee">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font-size:11px;font-weight:900;letter-spacing:.14em;color:#0e8a7d">{{ m.n }}</span>
+<span style="width:34px;height:34px;border:2px solid #1a1815;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900">{{ m.ic }}</span>
+</div>
+<div style="font-size:clamp(20px,2vw,25px);font-weight:800;letter-spacing:-.025em;margin-top:22px;line-height:1.1">{{ m.t }}</div>
+<p style="margin:12px 0 0;font-size:14.5px;line-height:1.6;color:#3f3b36">{{ m.d }}</p>
+<div style="margin-top:22px;padding-top:14px;border-top:2px solid #1a1815;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#0a5f57">{{ m.dado }}</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="projeto" style="border-bottom:2px solid #1a1815;background:#e9e4da">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 44px">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+<h2 style="margin:0;font-size:clamp(29px,4.6vw,56px);line-height:.98;font-weight:900;letter-spacing:-.035em">O projeto,<br>sala por sala</h2>
+<p style="margin:0;max-width:440px;font-size:16px;line-height:1.6;color:#3f3b36">Projeto executivo aprovado pela prefeitura em 2025. Imagens do render oficial da obra — é exatamente isso que vai ser entregue.</p>
+</div>
+</div>
+<div class="smWrap smMedia" style="max-width:1400px;margin:0 auto;padding:0 34px 78px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2px;background:#1a1815;border:2px solid #1a1815">
+<figure class="smFig smFigMain" style="margin:0;grid-row:span 2;overflow:hidden;background:#12100e;position:relative;min-height:clamp(260px,42vw,520px)">
+<img src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.27.jpeg" alt="Auditório com 1.200 lugares" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0">
+<figcaption style="position:absolute;left:0;bottom:0;right:0;padding:26px 28px;background:linear-gradient(to top,rgba(10,14,13,.92),transparent);color:#f6f3ee">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#4fd6c4">01 — Auditório</div>
+<div style="font-size:clamp(21px,2.4vw,28px);font-weight:900;letter-spacing:-.025em;margin-top:8px">1.200 assentos, acústica tratada</div>
+<p style="margin:8px 0 0;max-width:520px;font-size:14.5px;line-height:1.55;color:rgba(246,243,238,.82)">Piso em madeira, treliça metálica aparente e visão livre do palco em qualquer fileira. Um culto passa a caber onde hoje são dois.</p>
+</figcaption>
+</figure>
+<figure class="smFig smFigSub" style="margin:0;overflow:hidden;background:#12100e;position:relative;min-height:clamp(200px,22vw,259px)">
+<img src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.26.jpeg" alt="Mezanino" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0">
+<figcaption style="position:absolute;left:0;bottom:0;right:0;padding:20px 22px;background:linear-gradient(to top,rgba(10,14,13,.9),transparent);color:#f6f3ee">
+<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#4fd6c4">02 — Mezanino</div>
+<div style="font-size:19px;font-weight:800;margin-top:6px;letter-spacing:-.02em">Acessibilidade e sala de apoio</div>
+</figcaption>
+</figure>
+<figure class="smFig smFigSub" style="margin:0;overflow:hidden;background:#12100e;position:relative;min-height:clamp(200px,22vw,259px)">
+<img src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.26%20%281%29.jpeg" alt="Acesso lateral e cobogós" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0">
+<figcaption style="position:absolute;left:0;bottom:0;right:0;padding:20px 22px;background:linear-gradient(to top,rgba(10,14,13,.9),transparent);color:#f6f3ee">
+<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#4fd6c4">03 — Acessos</div>
+<div style="font-size:19px;font-weight:800;margin-top:6px;letter-spacing:-.02em">Cobogós, rampas e praça na rua</div>
+</figcaption>
+</figure>
+</div>
+<div style="border-top:2px solid #1a1815;background:#f6f3ee">
+<div class="smWrap smNums4" style="max-width:1400px;margin:0 auto;padding:0 34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr))">
+<sc-for list="{{ numeros }}" as="n" hint-placeholder-count="4">
+<div style="padding:32px 22px 32px 0;border-right:1px solid #d6d0c6">
+<div style="font-size:clamp(27px,3vw,36px);font-weight:900;letter-spacing:-.035em">{{ n.v }}</div>
+<div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#6b6560;margin-top:6px">{{ n.l }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="etapas" style="border-bottom:2px solid #1a1815">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 82px">
+<div style="display:flex;align-items:baseline;gap:22px;flex-wrap:wrap;margin-bottom:44px">
+<h2 style="margin:0;font-size:clamp(29px,4.6vw,56px);line-height:.98;font-weight:900;letter-spacing:-.035em">Onde a obra está hoje</h2>
+<span style="font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:#6b6560">Atualizado em setembro de 2026</span>
+</div>
+<div class="smSteps5" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));border-top:2px solid #1a1815">
+<sc-for list="{{ etapas }}" as="e" hint-placeholder-count="5">
+<div style="padding:26px 22px 32px 0;border-right:1px solid #d6d0c6">
+<div style="height:7px;background:{{ e.barBg }};margin-bottom:20px"></div>
+<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.18em;color:{{ e.tone }}">{{ e.status }}</div>
+<div style="font-size:22px;font-weight:900;margin-top:10px;letter-spacing:-.025em">{{ e.nome }}</div>
+<div style="font-size:12px;color:#6b6560;margin-top:4px;font-weight:600">{{ e.prazo }}</div>
+<p style="margin:12px 0 0;font-size:13.5px;line-height:1.55;color:#3f3b36">{{ e.desc }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="impacto" style="border-bottom:2px solid #1a1815;background:#12100e;color:#f6f3ee">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 0">
+<div class="smSplit" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:end;padding-bottom:44px">
+<h2 style="margin:0;font-size:clamp(29px,4.6vw,56px);line-height:.98;font-weight:900;letter-spacing:-.035em">O que cada<br>doação vira</h2>
+<p style="margin:0;font-size:16.5px;line-height:1.62;color:rgba(246,243,238,.78)">Conversão real, com preços de fornecedor cotados em agosto de 2026. Clique em um valor para levá-lo direto ao formulário — sem taxa administrativa, 100% entra no orçamento da obra.</p>
+</div>
+</div>
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:0 34px 78px">
+<div class="smTiers4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:2px;background:rgba(246,243,238,.22);border:2px solid rgba(246,243,238,.22)">
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="4">
+<div onClick="{{ t.pick }}" onKeyDown="{{ t.key }}" role="button" tabindex="0" class="smLift" style="background:#12100e;padding:32px 26px 28px;cursor:pointer;display:flex;flex-direction:column;gap:12px;min-height:clamp(190px,20vw,230px)">
+<div style="font-size:clamp(28px,3.2vw,38px);font-weight:900;letter-spacing:-.035em">{{ t.valor }}</div>
+<div style="width:34px;height:2px;background:#0e8a7d"></div>
+<div style="font-size:15.5px;line-height:1.45;font-weight:600;color:rgba(246,243,238,.9)">{{ t.vira }}</div>
+<div style="margin-top:auto;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:#4fd6c4">Doar este valor →</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="border-bottom:2px solid #1a1815;background:#0e8a7d;color:#fff">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:clamp(48px,7vw,86px) 34px">
+<blockquote style="margin:0;max-width:1080px">
+<p class="smWipe" style="margin:0;font-size:clamp(25px,4.4vw,56px);line-height:1.08;font-weight:900;letter-spacing:-.035em;text-wrap:balance">“Cada um contribua segundo propôs no seu coração, não com tristeza, nem por necessidade, porque Deus ama ao que dá com alegria.”</p>
+<footer style="margin-top:30px;display:flex;align-items:center;gap:16px">
+<span style="width:44px;height:2px;background:rgba(255,255,255,.7);display:block"></span>
+<span style="font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em">2 Coríntios 9:7</span>
+</footer>
+</blockquote>
+</div>
+</section>
+
+<section id="contas" style="border-bottom:2px solid #1a1815">
+<div class="smWrap smSplit" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 82px;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:52px">
+<div>
+<h2 style="margin:0;font-size:clamp(28px,4vw,46px);line-height:1.02;font-weight:900;letter-spacing:-.035em">Transparência<br>sem letra miúda</h2>
+<div style="margin-top:32px;border-top:2px solid #1a1815">
+<sc-for list="{{ transp }}" as="i" hint-placeholder-count="4">
+<div style="padding:22px 0;border-bottom:1px solid #d6d0c6;display:grid;grid-template-columns:30px 1fr;gap:18px">
+<div style="font-size:11px;font-weight:900;color:#0e8a7d;padding-top:4px">{{ i.n }}</div>
+<div>
+<div style="font-size:17px;font-weight:800;letter-spacing:-.01em">{{ i.t }}</div>
+<p style="margin:7px 0 0;font-size:14.5px;line-height:1.6;color:#3f3b36">{{ i.d }}</p>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div>
+<div style="border:2px solid #1a1815;padding:34px 32px;background:#f6f3ee">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Orçamento da estrutura</div>
+<div style="margin-top:26px;display:flex;flex-direction:column;gap:20px">
+<sc-for list="{{ orcamento }}" as="o" hint-placeholder-count="5">
+<div>
+<div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:8px"><span>{{ o.item }}</span><span style="color:#6b6560">{{ o.pctTxt }}</span></div>
+<div style="height:11px;background:#e0dad0"><div style="height:100%;background:{{ o.cor }};width:{{ o.w }}"></div></div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:28px;padding-top:20px;border-top:2px solid #1a1815;display:flex;justify-content:space-between;align-items:baseline">
+<span style="font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.16em">Total da fase</span>
+<span style="font-size:26px;font-weight:900;letter-spacing:-.03em">{{ goalFmt }}</span>
+</div>
+</div>
+<button onClick="{{ goDoar }}" class="smLift" style="margin-top:22px;width:100%;background:#1a1815;color:#f6f3ee;border:0;height:64px;padding:0 28px;font-family:Archivo,sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Fazer parte da obra</button>
+</div>
+</div>
+</section>
+
+<section id="visite" style="border-bottom:2px solid #1a1815;background:#e9e4da">
+<div class="smWrap smSplit" style="max-width:1400px;margin:0 auto;padding:clamp(44px,6vw,78px) 34px 82px;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:52px">
+<div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+<span style="width:40px;height:2px;background:#0e8a7d;display:block"></span>
+<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Venha nos visitar</span>
+</div>
+<h2 style="margin:0;font-size:clamp(28px,4vw,46px);line-height:1.02;font-weight:900;letter-spacing:-.035em">Nossos cultos</h2>
+<div style="margin-top:30px;border-top:2px solid #1a1815">
+<sc-for list="{{ cultos }}" as="c" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid #cdc6bb">
+<span style="font-size:19px;font-weight:800;letter-spacing:-.015em">{{ c.dia }}</span>
+<span style="flex:1;height:2px;background:#cdc6bb"></span>
+<span style="font-size:15px;font-weight:700;color:#0a5f57;text-align:right">{{ c.hora }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:26px 0 0;font-size:14.5px;line-height:1.6;color:#3f3b36">Pastoreada pelo Pr. Gilvan Camilo e Miss. Simone Camilo. Se for a sua primeira vez, procure alguém da equipe de recepção na entrada — vamos te acompanhar.</p>
+</div>
+<div>
+<div style="border:2px solid #1a1815;background:#f6f3ee;padding:32px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Onde estamos</div>
+<div style="font-size:20px;font-weight:800;margin-top:16px;line-height:1.35;letter-spacing:-.015em">Av. Juscelino Kubitschek de Oliveira, S/N<br>Canal do Juá — Guarabira/PB</div>
+<div style="margin-top:18px;font-size:14.5px;line-height:1.75;color:#3f3b36">igrejabatistasemeargba@gmail.com<br>(83) 8856-4852</div>
+<div class="smLinkRow" style="display:flex;flex-direction:column;gap:2px;margin-top:26px;background:#1a1815;padding:2px">
+<a href="https://share.google/gb9q9LjZLcjpgYpci" target="_blank" class="smLift" style="display:flex;align-items:center;justify-content:space-between;background:#f6f3ee;padding:16px 20px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em">Ver no Google Maps<span>→</span></a>
+<a href="https://www.instagram.com/igrejasemeargba_/" target="_blank" class="smLift" style="display:flex;align-items:center;justify-content:space-between;background:#f6f3ee;padding:16px 20px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em">Instagram @igrejasemeargba_<span>→</span></a>
+<a href="https://www.youtube.com/@IgrejaSemearGuarabira" target="_blank" class="smLift" style="display:flex;align-items:center;justify-content:space-between;background:#f6f3ee;padding:16px 20px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em">YouTube — cultos ao vivo<span>→</span></a>
+<a href="https://igrejasemear.com.br/" target="_blank" class="smLift" style="display:flex;align-items:center;justify-content:space-between;background:#f6f3ee;padding:16px 20px;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em">igrejasemear.com.br<span>→</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="border-bottom:2px solid #1a1815;position:relative;overflow:hidden;background:#12100e;color:#f6f3ee">
+<div style="position:absolute;inset:0"><img class="smKen" src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.26%20%281%29.jpeg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.42"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,20,18,.93) 0%,rgba(10,20,18,.6) 60%,rgba(10,20,18,.35) 100%)"></div>
+<div style="position:relative;max-width:1400px;margin:0 auto;padding:clamp(52px,7.5vw,96px) 34px">
+<h2 style="margin:0;font-size:clamp(30px,5.6vw,66px);line-height:.96;font-weight:900;letter-spacing:-.04em;max-width:760px;text-wrap:balance">Você pode ser parte da parede que ainda falta.</h2>
+<div class="smBtnRow" style="display:flex;gap:14px;margin-top:36px;flex-wrap:wrap">
+<button onClick="{{ goDoar }}" class="smLift" style="background:#0e8a7d;color:#fff;border:0;height:62px;padding:0 34px;font-family:Archivo,sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Doar uma vez</button>
+<button onClick="{{ goDoarMensal }}" class="smLift" style="background:transparent;color:#f6f3ee;border:2px solid rgba(246,243,238,.55);height:62px;padding:0 34px;font-family:Archivo,sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Doar todo mês</button>
+</div>
+</div>
+</section>
+
+</main>
+</sc-if>
+
+<sc-if value="{{ isDoar }}" hint-placeholder-val="{{ false }}">
+<main class="smWrap smFormPage" style="max-width:1400px;margin:0 auto;padding:0 34px">
+<sc-if value="{{ notDone }}" hint-placeholder-val="{{ true }}">
+<div class="smForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));border-left:2px solid #1a1815;border-right:2px solid #1a1815">
+
+<div class="smFormMain" style="padding:clamp(30px,4.5vw,58px) clamp(18px,4vw,50px) clamp(46px,6vw,80px);border-right:2px solid #1a1815">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+<span style="width:40px;height:2px;background:#0e8a7d;display:block"></span>
+<span style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Doação para a construção</span>
+</div>
+<h1 style="margin:0;font-size:clamp(32px,5vw,58px);line-height:.97;font-weight:900;letter-spacing:-.04em">Escolha como<br>você quer semear.</h1>
+
+<div style="margin-top:46px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#6b6560;margin-bottom:14px">01 — Frequência</div>
+<div class="smFreq" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));border:2px solid #1a1815">
+<button onClick="{{ setUnica }}" style="background:{{ unicaBg }};color:{{ unicaFg }};border:0;border-right:2px solid #1a1815;padding:22px 24px;text-align:left;cursor:pointer;font-family:Archivo,sans-serif;transition:background .2s,color .2s">
+<div style="font-size:18px;font-weight:900;letter-spacing:-.015em">Doação única</div>
+<div style="font-size:13px;margin-top:5px;opacity:.72">Uma contribuição agora</div>
+</button>
+<button onClick="{{ setMensal }}" style="background:{{ mensalBg }};color:{{ mensalFg }};border:0;padding:22px 24px;text-align:left;cursor:pointer;font-family:Archivo,sans-serif;transition:background .2s,color .2s">
+<div style="font-size:18px;font-weight:900;letter-spacing:-.015em">Doação mensal</div>
+<div style="font-size:13px;margin-top:5px;opacity:.72">Sustenta o cronograma da obra</div>
+</button>
+</div>
+<p style="margin:13px 0 0;font-size:13.5px;line-height:1.6;color:#3f3b36">{{ freqNota }}</p>
+</div>
+
+<div style="margin-top:42px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#6b6560;margin-bottom:14px">02 — Valor</div>
+<div class="smVal3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+<sc-for list="{{ valores }}" as="v" hint-placeholder-count="6">
+<button onClick="{{ v.pick }}" class="smLift" style="background:{{ v.bg }};color:{{ v.fg }};border:2px solid {{ v.bd }};padding:19px 17px;text-align:left;cursor:pointer;font-family:Archivo,sans-serif">
+<div style="font-size:23px;font-weight:900;letter-spacing:-.025em">{{ v.label }}</div>
+<div style="font-size:11.5px;margin-top:6px;line-height:1.35;opacity:.78">{{ v.nota }}</div>
+</button>
+</sc-for>
+</div>
+<div class="smCustom" style="margin-top:14px;display:flex;align-items:stretch;border:2px solid #1a1815">
+<span style="display:flex;align-items:center;padding:0 18px;background:#1a1815;color:#f6f3ee;font-size:14px;font-weight:800">R$</span>
+<input value="{{ custom }}" onChange="{{ onCustom }}" placeholder="Outro valor" style="flex:1;border:0;padding:17px;font-size:17px;font-weight:600;background:#f6f3ee;color:#1a1815;outline:none">
+</div>
+</div>
+
+<div style="margin-top:42px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#6b6560;margin-bottom:14px">03 — Seus dados</div>
+<div class="smDados" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px">
+<input value="{{ nome }}" onChange="{{ onNome }}" placeholder="Nome completo" style="grid-column:span 2;border:2px solid #1a1815;padding:16px;font-size:15px;background:#f6f3ee;outline:none">
+<input value="{{ email }}" onChange="{{ onEmail }}" placeholder="E-mail" style="border:2px solid #1a1815;padding:16px;font-size:15px;background:#f6f3ee;outline:none">
+<input value="{{ tel }}" onChange="{{ onTel }}" placeholder="WhatsApp" style="border:2px solid #1a1815;padding:16px;font-size:15px;background:#f6f3ee;outline:none">
+</div>
+<label style="display:flex;gap:11px;align-items:flex-start;margin-top:15px;font-size:13.5px;color:#3f3b36;cursor:pointer">
+<input type="checkbox" checked="{{ recibo }}" onChange="{{ onRecibo }}" style="margin-top:2px;accent-color:#0e8a7d;width:18px;height:18px">
+<span>Quero receber o recibo de doação e o relatório mensal da obra por e-mail.</span>
+</label>
+</div>
+
+<div style="margin-top:42px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#6b6560;margin-bottom:14px">04 — Forma de pagamento</div>
+<div class="smPay3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px">
+<sc-for list="{{ metodos }}" as="m" hint-placeholder-count="3">
+<button onClick="{{ m.pick }}" class="smLift" style="background:{{ m.bg }};color:{{ m.fg }};border:2px solid {{ m.bd }};padding:17px;text-align:left;cursor:pointer;font-family:Archivo,sans-serif">
+<div style="font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.1em">{{ m.nome }}</div>
+<div style="font-size:11.5px;margin-top:6px;opacity:.78">{{ m.nota }}</div>
+</button>
+</sc-for>
+</div>
+<p style="margin:13px 0 0;font-size:13px;color:#6b6560">{{ metodoNota }}</p>
+</div>
+</div>
+
+<aside class="smFormAside" style="padding:clamp(28px,4vw,58px) clamp(18px,3.4vw,42px) clamp(46px,6vw,80px);background:#e9e4da">
+<div style="position:sticky;top:112px">
+<div style="border:2px solid #1a1815;background:#f6f3ee;padding:32px 30px">
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Resumo</div>
+<div style="margin-top:24px;display:flex;align-items:baseline;gap:10px">
+<span style="font-size:clamp(34px,4.4vw,48px);font-weight:900;letter-spacing:-.04em;line-height:1">{{ valorFmt }}</span>
+<span style="font-size:15px;color:#6b6560;font-weight:700">{{ sufixo }}</span>
+</div>
+<div style="margin-top:26px;border-top:1px solid #cdc6bb">
+<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #cdc6bb;font-size:13.5px"><span style="color:#6b6560">Tipo</span><span style="font-weight:800">{{ tipoTxt }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #cdc6bb;font-size:13.5px"><span style="color:#6b6560">Pagamento</span><span style="font-weight:800">{{ metodoTxt }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #cdc6bb;font-size:13.5px"><span style="color:#6b6560">Taxa administrativa</span><span style="font-weight:800">R$ 0,00</span></div>
+<div style="display:flex;justify-content:space-between;padding:13px 0;font-size:13.5px"><span style="color:#6b6560">Vai para a obra</span><span style="font-weight:900;color:#0a5f57">100%</span></div>
+</div>
+<div style="margin-top:22px;background:#0e8a7d;color:#fff;padding:20px 22px">
+<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)">Sua doação constrói</div>
+<div style="font-size:16px;line-height:1.45;margin-top:9px;font-weight:700">{{ impacto }}</div>
+</div>
+<button onClick="{{ submit }}" class="smLift" style="margin-top:22px;width:100%;background:#1a1815;color:#f6f3ee;border:0;height:64px;padding:0 26px;font-family:Archivo,sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">{{ ctaTxt }}</button>
+<sc-if value="{{ erro }}" hint-placeholder-val="{{ false }}">
+<p style="margin:13px 0 0;font-size:13px;color:#a8341c;font-weight:700">{{ erro }}</p>
+</sc-if>
+<p style="margin:15px 0 0;font-size:11.5px;line-height:1.55;color:#6b6560">Ambiente de demonstração — nenhum pagamento real é processado. Ao integrar o provedor, este botão abre o checkout.</p>
+</div>
+<div style="margin-top:24px;border:2px solid #1a1815;background:#f6f3ee;padding:18px 20px">
+<div style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.13em">Prefere transferir direto?</div>
+<div style="font-size:13.5px;color:#3f3b36;margin-top:7px;line-height:1.55">Pix CNPJ <strong>32.703.146/0001-90</strong> · Igreja Batista Semear — conta exclusiva da construção.</div>
+</div>
+</div>
+</aside>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+<div class="smDone" style="border-left:2px solid #1a1815;border-right:2px solid #1a1815;padding:clamp(52px,7vw,96px) clamp(18px,4vw,50px) clamp(68px,9vw,130px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:start">
+<div>
+<div style="width:66px;height:66px;background:#0e8a7d;display:flex;align-items:center;justify-content:center">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="square"><path d="M4 12.5 9.5 18 20 6"></path></svg>
+</div>
+<h1 style="margin:28px 0 0;font-size:clamp(32px,5vw,60px);line-height:.98;font-weight:900;letter-spacing:-.04em">Obrigado, {{ primeiroNome }}.</h1>
+<p style="margin:22px 0 0;max-width:540px;font-size:17.5px;line-height:1.6;color:#3f3b36">Sua doação de <strong>{{ valorFmt }}{{ sufixo }}</strong> foi registrada. O comprovante vai para {{ emailTxt }} e, a partir do próximo mês, você recebe o relatório com as fotos do andamento da obra.</p>
+<div class="smBtnRow" style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap">
+<button onClick="{{ goHome }}" class="smLift" style="background:#1a1815;color:#f6f3ee;border:0;height:56px;padding:0 28px;font-family:Archivo,sans-serif;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Voltar à campanha</button>
+<button onClick="{{ reset }}" class="smLift" style="background:transparent;color:#1a1815;border:2px solid #1a1815;height:56px;padding:0 28px;font-family:Archivo,sans-serif;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;text-align:left">Fazer outra doação</button>
+</div>
+</div>
+<div style="border:2px solid #1a1815;overflow:hidden">
+<img src="uploads/WhatsApp%20Image%202026-09-03%20at%2011.54.27.jpeg" alt="Auditório do novo templo" class="smDoneImg" style="width:100%;height:340px;object-fit:cover;display:block">
+<div style="padding:22px 24px;border-top:2px solid #1a1815;background:#f6f3ee">
+<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:#0a5f57">Meta atualizada</div>
+<div style="font-size:15.5px;margin-top:9px;line-height:1.45">{{ raisedFmt }} de {{ goalFmt }} — {{ pct }}% do orçamento da estrutura.</div>
+</div>
+</div>
+</div>
+</sc-if>
+</main>
+</sc-if>
+
+<footer style="background:#12100e;color:#f6f3ee;border-top:2px solid #1a1815">
+<div class="smWrap smFoot" style="max-width:1400px;margin:0 auto;padding:clamp(40px,5vw,56px) 34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:44px">
+<div>
+<div style="display:flex;align-items:center;gap:12px">
+<span class="smMark" style="width:32px;height:32px;background:#0e8a7d;display:flex;align-items:center;justify-content:center">
+<img src="uploads/Ligth%20Brand.png" alt="" class="smMarkImg">
+</span>
+<span style="font-size:19px;font-weight:900;text-transform:uppercase;letter-spacing:.02em">Igreja Batista Semear</span>
+</div>
+<p style="margin:16px 0 0;max-width:400px;font-size:13.5px;line-height:1.65;color:rgba(246,243,238,.7)">Guarabira — PB. Pastoreada pelo Pr. Gilvan Camilo e Miss. Simone Camilo. Campanha de construção do novo templo, com prestação de contas mensal aberta a doadores e membros.</p>
+<div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+<a href="https://www.instagram.com/igrejasemeargba_/" target="_blank" rel="noopener" class="smLift smIcon" aria-label="Instagram · @igrejasemeargba_" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.1" cy="6.9" r="1.15" fill="currentColor" stroke="none"></circle></svg></a>
+<a href="https://www.youtube.com/@IgrejaSemearGuarabira" target="_blank" rel="noopener" class="smLift smIcon" aria-label="YouTube · cultos ao vivo" title="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.2" y="5" width="19.6" height="14" rx="4"></rect><path d="M10.2 9.1 15.6 12l-5.4 2.9Z" fill="currentColor" stroke="none"></path></svg></a>
+<a href="https://igrejasemear.com.br/" target="_blank" rel="noopener" class="smLift smIcon" aria-label="Site oficial · igrejasemear.com.br" title="Site oficial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3.2 12h17.6"></path><path d="M12 3c2.4 2.6 3.7 5.6 3.7 9s-1.3 6.4-3.7 9c-2.4-2.6-3.7-5.6-3.7-9S9.6 5.6 12 3Z"></path></svg></a>
+<a href="https://share.google/gb9q9LjZLcjpgYpci" target="_blank" rel="noopener" class="smLift smIcon" aria-label="Como chegar · abre no Google Maps" title="Como chegar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.4s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"></path><circle cx="12" cy="10.4" r="2.6"></circle></svg></a>
+</div>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(246,243,238,.5)">Contato</div>
+<div style="margin-top:15px;font-size:13.5px;line-height:1.95;color:rgba(246,243,238,.82)">igrejabatistasemeargba@gmail.com<br>(83) 8856-4852<br>Av. Juscelino Kubitschek de Oliveira, S/N<br>Canal do Juá — Guarabira/PB</div>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(246,243,238,.5)">Cultos</div>
+<div style="margin-top:15px;font-size:13.5px;line-height:1.95;color:rgba(246,243,238,.82)">Domingo — 9h e 17h30<br>Quarta — 19h<br>Sexta — 19h<br>Sábado — 15h Escola Bíblica<br>Sábado — 19h Culto Jovem</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(246,243,238,.18)">
+<div class="smWrap" style="max-width:1400px;margin:0 auto;padding:18px 34px;font-size:11.5px;color:rgba(246,243,238,.5)">Igreja Batista Semear · CNPJ 32.703.146/0001-90 · Os valores de arrecadação exibidos são exemplos de demonstração — substitua pelos oficiais antes de publicar.</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;meta&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2400000,&quot;tsType&quot;:&quot;number&quot;,&quot;unit&quot;:&quot;R$&quot;,&quot;section&quot;:&quot;Campanha&quot;},&quot;arrecadado&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1386500,&quot;tsType&quot;:&quot;number&quot;,&quot;unit&quot;:&quot;R$&quot;,&quot;section&quot;:&quot;Campanha&quot;}}">
+const BRL = n => 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits: 0});
+const INK = '#1a1815', GROUND = '#f6f3ee', TEAL = '#0e8a7d';
+
+class Component extends DCLogic {
+  state = { page: 'home', freq: 'unica', valor: 250, custom: '', nome: '', email: '', tel: '', recibo: true, metodo: 'pix', done: false, erro: '' };
+
+  pickValor = v => this.setState({ valor: v, custom: '', erro: '' });
+  irDoar = (extra) => { this.setState(Object.assign({ page: 'doar', done: false }, extra || {})); window.scrollTo(0, 0); };
+
+  renderVals() {
+    const s = this.state;
+    const goal = Number(this.props.meta ?? 2400000);
+    const raised = Number(this.props.arrecadado ?? 1386500);
+    const pct = Math.min(100, Math.round((raised / goal) * 1000) / 10);
+
+    const valores = [
+      { v: 100, nota: '2 sacos de cimento' },
+      { v: 250, nota: '1 m² de laje concretada' },
+      { v: 500, nota: 'O aço de um pilar' },
+      { v: 1000, nota: '2 m³ de concreto usinado' },
+      { v: 2500, nota: 'Um pilar do auditório' },
+      { v: 5000, nota: 'Uma tesoura da treliça' }
+    ].map(x => {
+      const on = s.valor === x.v && !s.custom;
+      return { label: BRL(x.v), nota: x.nota, pick: () => this.pickValor(x.v), bg: on ? INK : GROUND, fg: on ? GROUND : INK, bd: INK };
+    });
+
+    const metodos = [
+      { id: 'pix', nome: 'Pix', nota: 'Confirmação imediata' },
+      { id: 'cartao', nome: 'Cartão', nota: 'Crédito, recorrência automática' },
+      { id: 'boleto', nome: 'Boleto', nota: 'Vence em 3 dias úteis' }
+    ].map(m => {
+      const on = s.metodo === m.id;
+      return { nome: m.nome, nota: m.nota, pick: () => this.setState({ metodo: m.id }), bg: on ? TEAL : GROUND, fg: on ? '#fff' : INK, bd: on ? TEAL : INK };
+    });
+
+    const valorNum = s.custom ? Number(String(s.custom).replace(/[^\d]/g, '')) || 0 : s.valor;
+    const impactoMap = [[5000, 'Uma tesoura da treliça que vence o vão do auditório.'], [2500, 'Um pilar do auditório, do aço à concretagem.'], [1000, 'Dois metros cúbicos de concreto usinado da laje.'], [500, 'O aço de um pilar do auditório.'], [250, 'Um metro quadrado de laje concretada.'], [100, 'Dois sacos de cimento da laje.'], [0, 'Material de estrutura para a próxima concretagem.']];
+    const impacto = (impactoMap.find(r => valorNum >= r[0]) || impactoMap[6])[1];
+
+    const etapas = [
+      { nome: 'Terreno', prazo: 'Concluído · 2024', status: 'Concluído', desc: 'Compra e regularização do lote na avenida principal, no Canal do Juá.', p: 100 },
+      { nome: 'Fundação', prazo: 'Concluído · 2025', status: 'Concluído', desc: 'Estacas, blocos e contenção do talude a leste.', p: 100 },
+      { nome: 'Estrutura', prazo: 'Em andamento', status: 'Em andamento', desc: 'Pilares, lajes e a treliça metálica que vence o vão do auditório. É esta fase que a campanha financia.', p: 42 },
+      { nome: 'Acabamento', prazo: 'Previsto · 2027', status: 'A iniciar', desc: 'Cobogós, piso, forro acústico, elétrica e climatização.', p: 0 },
+      { nome: 'Entrega', prazo: 'Previsto · dez 2027', status: 'A iniciar', desc: 'Mobiliário, praça de acesso, paisagismo e vistoria final.', p: 0 }
+    ].map(e => Object.assign({}, e, {
+      tone: e.status === 'Em andamento' ? '#0a5f57' : e.status === 'Concluído' ? '#3f3b36' : '#9b9590',
+      barBg: e.p === 100 ? INK : e.p > 0 ? TEAL : '#d6d0c6'
+    }));
+
+    const orcamento = [
+      { item: 'Pilares e vigas', p: 24 }, { item: 'Lajes e escadas', p: 23 },
+      { item: 'Treliça metálica e cobertura', p: 21 }, { item: 'Alvenaria e vedação', p: 18 },
+      { item: 'Fôrmas, escoramento e aço', p: 14 }
+    ].map((o, i) => ({ item: o.item, pctTxt: o.p + '%', w: o.p * 4 + '%', cor: i === 0 ? TEAL : INK }));
+
+    const activate = (v) => { this.pickValor(v); this.irDoar(); };
+    const onKey = fn => e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); fn(); } };
+    const tier = (v, txt) => ({ valor: BRL(v), vira: txt, pick: () => activate(v), key: onKey(() => activate(v)) });
+
+    return {
+      isHome: s.page === 'home', isDoar: s.page === 'doar',
+      goHome: () => this.setState({ page: 'home', done: false }),
+      goHomeKey: e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); this.setState({ page: 'home', done: false }); } },
+      goDoar: () => this.irDoar(),
+      goDoarMensal: () => this.irDoar({ freq: 'mensal' }),
+      pct, pctW: pct + '%', raisedFmt: BRL(raised), goalFmt: BRL(goal),
+      doadores: '412', mensais: '138',
+      ticker: [
+        { txt: '42% da estrutura executada' },
+        { txt: 'Zero taxa administrativa' },
+        { txt: 'Relatório de obra todo dia 10' },
+        { txt: '1.200 lugares · 8 salas infantis' },
+        { txt: 'Entrega prevista para dezembro de 2027' },
+        { txt: 'Conta exclusiva da construção' }
+      ],
+      motivos: [
+        { n: '01', ic: '✕', t: 'Dois cultos e ainda falta lugar', d: 'Nos domingos, dividimos a igreja em dois horários e mesmo assim há gente em pé no fundo e no corredor.', dado: 'Hoje: 620 lugares · Novo: 1.200' },
+        { n: '02', ic: '☖', t: 'As crianças não têm sala', d: 'O ensino infantil acontece em espaços improvisados atrás do palco, sem isolamento acústico e sem banheiro próximo.', dado: '8 salas no projeto novo' },
+        { n: '03', ic: '↻', t: 'O bairro fica de fora da semana', d: 'Cursos, atendimento e distribuição dependem de emprestar espaço. O novo templo libera as manhãs para o bairro.', dado: 'Aberto de segunda a sábado' }
+      ],
+      numeros: [
+        { v: '1.200', l: 'Lugares no auditório' },
+        { v: '2.400 m²', l: 'Área construída' },
+        { v: '8', l: 'Salas de ensino infantil' },
+        { v: 'Dez / 2027', l: 'Entrega prevista' }
+      ],
+      cultos: [
+        { dia: 'Domingo', hora: '9h e 17h30' },
+        { dia: 'Quarta-feira', hora: '19h' },
+        { dia: 'Sexta-feira', hora: '19h' },
+        { dia: 'Sábado · Escola Bíblica', hora: '15h' },
+        { dia: 'Sábado · Culto Jovem', hora: '19h' }
+      ],
+      etapas, orcamento,
+      tiers: [
+        tier(100, '2 sacos de cimento para a laje do mezanino'),
+        tier(500, 'O aço de um pilar do auditório'),
+        tier(1000, '2 m³ de concreto usinado da laje'),
+        tier(2500, 'Um pilar completo, do aço à concretagem')
+      ],
+      transp: [
+        { n: '01', t: 'Conta exclusiva da obra', d: 'Toda doação entra em conta separada da tesouraria geral, movimentada apenas com dupla assinatura.' },
+        { n: '02', t: 'Relatório mensal com nota fiscal', d: 'Publicamos o extrato, as notas dos fornecedores e as fotos do canteiro no dia 10 de cada mês, no Instagram e por e-mail.' },
+        { n: '03', t: 'Zero taxa administrativa', d: 'Os custos de plataforma são cobertos pelo orçamento ordinário da igreja. 100% da doação vira material e mão de obra.' },
+        { n: '04', t: 'Auditoria independente', d: 'Balanço anual auditado por escritório externo, aberto a qualquer doador que solicitar.' }
+      ],
+      setUnica: () => this.setState({ freq: 'unica' }),
+      setMensal: () => this.setState({ freq: 'mensal' }),
+      unicaBg: s.freq === 'unica' ? INK : GROUND, unicaFg: s.freq === 'unica' ? GROUND : INK,
+      mensalBg: s.freq === 'mensal' ? INK : GROUND, mensalFg: s.freq === 'mensal' ? GROUND : INK,
+      freqNota: s.freq === 'mensal'
+        ? 'A doação mensal é o que permite fechar contrato com o fornecedor sem parar a obra. Você pode cancelar quando quiser pela secretaria.'
+        : 'Uma contribuição pontual, no valor que você definir. Se preferir sustentar o cronograma mês a mês, escolha a doação mensal.',
+      valores, metodos,
+      metodoNota: s.metodo === 'pix' ? 'Você recebe o QR Code na próxima tela e a confirmação chega em segundos.'
+        : s.metodo === 'cartao' ? 'Para doação mensal, a cobrança é automática no mesmo dia de cada mês.'
+        : 'O boleto é enviado por e-mail. Para doação mensal, um novo boleto chega a cada mês.',
+      custom: s.custom, onCustom: e => this.setState({ custom: e.target.value, erro: '' }),
+      nome: s.nome, onNome: e => this.setState({ nome: e.target.value, erro: '' }),
+      email: s.email, onEmail: e => this.setState({ email: e.target.value, erro: '' }),
+      tel: s.tel, onTel: e => this.setState({ tel: e.target.value }),
+      recibo: s.recibo, onRecibo: e => this.setState({ recibo: e.target.checked }),
+      valorFmt: BRL(valorNum), sufixo: s.freq === 'mensal' ? '/mês' : ' única',
+      tipoTxt: s.freq === 'mensal' ? 'Mensal recorrente' : 'Doação única',
+      metodoTxt: s.metodo === 'pix' ? 'Pix' : s.metodo === 'cartao' ? 'Cartão de crédito' : 'Boleto',
+      impacto,
+      ctaTxt: s.freq === 'mensal' ? 'Confirmar doação mensal' : 'Confirmar doação',
+      erro: s.erro,
+      submit: () => {
+        if (!valorNum || valorNum < 10) return this.setState({ erro: 'Escolha um valor a partir de R$ 10.' });
+        if (!s.nome.trim()) return this.setState({ erro: 'Preencha seu nome completo.' });
+        if (!/.+@.+\..+/.test(s.email)) return this.setState({ erro: 'Informe um e-mail válido para o recibo.' });
+        this.setState({ done: true, erro: '' });
+        window.scrollTo(0, 0);
+      },
+      done: s.done, notDone: !s.done,
+      reset: () => this.setState({ done: false, custom: '', valor: 250 }),
+      primeiroNome: (s.nome.trim().split(' ')[0]) || 'amigo',
+      emailTxt: s.email || 'seu e-mail'
+    };
+  }
+}
+</script>
+</body>
+</html>
