@@ -4,7 +4,7 @@ import { MOTIVOS } from "@/lib/content";
 /** Secao "Por que construir": justificativa e os tres motivos principais. */
 export function Porque() {
   return (
-    <section id="porque" className={styles.section}>
+    <section id="porque" className={styles.section} data-ga-section="porque">
       <div className={`smWrap ${styles.intro}`}>
         <div className={`smSplit ${styles.split}`}>
           <div>

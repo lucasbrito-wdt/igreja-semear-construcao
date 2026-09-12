@@ -11,7 +11,7 @@ const EXTERNAL_LINKS = [
 /** Secao "Nossos cultos": horarios, endereco e links externos da igreja. */
 export function Visite() {
   return (
-    <section id="visite" className={styles.section}>
+    <section id="visite" className={styles.section} data-ga-section="visite">
       <div className={`smWrap smSplit ${styles.split}`}>
         <div>
           <div className={styles.eyebrowRow}>

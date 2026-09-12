@@ -8,6 +8,7 @@ import { Citacao } from "@/components/home/Citacao";
 import { Contas } from "@/components/home/Contas";
 import { Visite } from "@/components/home/Visite";
 import { CtaFinal } from "@/components/home/CtaFinal";
+import { HomeAnalytics } from "@/components/analytics/HomeAnalytics";
 import { getCampaignStats } from "@/lib/campaign/stats";
 
 export const revalidate = 60;
@@ -17,6 +18,7 @@ export default async function Home() {
 
   return (
     <main>
+      <HomeAnalytics />
       <Hero stats={stats} />
       <Marquee />
       <Porque />

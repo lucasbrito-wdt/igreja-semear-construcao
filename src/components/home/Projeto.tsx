@@ -11,7 +11,7 @@ const NUMERO_COUNT: Record<string, { value: number; format: CounterFormat }> = {
 /** Secao "O projeto, sala por sala": galeria do render oficial e numeros da obra. */
 export function Projeto() {
   return (
-    <section id="projeto" className={styles.section}>
+    <section id="projeto" className={styles.section} data-ga-section="projeto">
       <div className={`smWrap ${styles.headRow}`}>
         <h2 className={styles.title} data-fx="section-title">
           O projeto,

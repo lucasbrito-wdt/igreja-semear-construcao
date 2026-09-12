@@ -6,6 +6,7 @@ import { VALORES } from "@/lib/content";
 import styles from "../DoacaoForm.module.css";
 import { useSelectionMorphFx } from "../fx/useFormMicroFx";
 import type { DonationFormState } from "../useDonationForm";
+import { trackSelectValor } from "@/lib/analytics/events";
 
 /** 02 — Valor: seis opções rápidas + "Outro valor". */
 export function ValorStep({ form }: { form: DonationFormState }) {
@@ -28,7 +29,10 @@ export function ValorStep({ form }: { form: DonationFormState }) {
             data-selected={form.valorSelecionado === v.valor}
             data-testid={`valor-${v.valor}`}
             className={styles.valBtn}
-            onClick={() => form.selecionarValor(v.valor)}
+            onClick={() => {
+              form.selecionarValor(v.valor);
+              trackSelectValor({ value: v.valor, origem_valor: "preset" });
+            }}
           >
             <div className={styles.valBtnTitle}>{v.label}</div>
 
@@ -44,6 +48,11 @@ export function ValorStep({ form }: { form: DonationFormState }) {
           inputMode="decimal"
           value={form.outroValorInput}
           onChange={(e) => form.alterarOutroValor(e.target.value)}
+          onBlur={() => {
+            if (usandoOutro && form.valor > 0) {
+              trackSelectValor({ value: form.valor, origem_valor: "outro" });
+            }
+          }}
           aria-invalid={Boolean(erro)}
           aria-describedby={erro ? "valor-erro" : undefined}
         />

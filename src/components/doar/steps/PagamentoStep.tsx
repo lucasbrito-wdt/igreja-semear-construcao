@@ -6,6 +6,7 @@ import styles from "../DoacaoForm.module.css";
 import { useSelectionMorphFx } from "../fx/useFormMicroFx";
 import type { DonationFormState } from "../useDonationForm";
 import type { MetodoPagamento } from "../types";
+import { trackSelectPaymentMethod } from "@/lib/analytics/events";
 import {
   brandLabel,
   formatCardNumberDisplay,
@@ -59,7 +60,10 @@ export function PagamentoStep({ form }: { form: DonationFormState }) {
             data-selected={form.metodo === m.id}
             data-testid={m.testId}
             className={styles.payBtn}
-            onClick={() => form.resetarParaMetodo(m.id)}
+            onClick={() => {
+              form.resetarParaMetodo(m.id);
+              trackSelectPaymentMethod({ payment_type: m.id, frequencia: form.frequencia });
+            }}
           >
             <div className={styles.payBtnTitle}>{m.titulo}</div>
             <div className={styles.payBtnDesc}>{m.descricao}</div>

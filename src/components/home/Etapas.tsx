@@ -4,7 +4,7 @@ import { ETAPAS, ETAPAS_ATUALIZACAO } from "@/lib/content";
 /** Secao "Onde a obra está hoje": linha do tempo com o andamento de cada etapa. */
 export function Etapas() {
   return (
-    <section id="etapas" className={styles.section}>
+    <section id="etapas" className={styles.section} data-ga-section="etapas">
       <div className={`smWrap ${styles.wrap}`}>
         <div className={styles.headRow}>
           <h2 className={styles.title} data-fx="section-title">

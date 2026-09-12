@@ -1,7 +1,7 @@
 import styles from "./Contas.module.css";
 import { ORCAMENTO, TRANSP, formatBRL } from "@/lib/content";
 import type { CampaignStats } from "@/lib/campaign/types";
-import { TransitionLink } from "@/components/fx/TransitionLink";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 type ContasProps = {
   stats: CampaignStats;
@@ -10,7 +10,7 @@ type ContasProps = {
 /** Secao "Transparência sem letra miúda": principios de prestacao de contas e orcamento. */
 export function Contas({ stats }: Readonly<ContasProps>) {
   return (
-    <section id="contas" className={styles.section}>
+    <section id="contas" className={styles.section} data-ga-section="contas">
       <div className={`smWrap smSplit ${styles.split}`}>
         <div>
           <h2 className={styles.title} data-fx="section-title">
@@ -48,9 +48,16 @@ export function Contas({ stats }: Readonly<ContasProps>) {
             </div>
 
           </div>
-          <TransitionLink href="/doar" className={`smLift ${styles.cta}`} data-fx="magnetic">
+          <TrackedLink
+            href="/doar"
+            ctaId="contas_doar"
+            ctaLabel="Fazer parte da obra"
+            ctaLocation="contas"
+            className={`smLift ${styles.cta}`}
+            data-fx="magnetic"
+          >
             Fazer parte da obra
-          </TransitionLink>
+          </TrackedLink>
         </div>
       </div>
     </section>

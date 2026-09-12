@@ -1,10 +1,12 @@
 import { BrandMark } from "./BrandMark";
 import styles from "./Footer.module.css";
 import { CONTATOS, CULTOS, LINKS, SHOW_DEMO_NOTICE } from "@/lib/content";
+import { TrackedSocialLink } from "@/components/analytics/TrackedSocialLink";
 
 const SOCIAL_LINKS = [
   {
     href: LINKS.instagram,
+    network: "instagram" as const,
     label: "Instagram · @igrejasemeargba_",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -16,6 +18,7 @@ const SOCIAL_LINKS = [
   },
   {
     href: LINKS.youtube,
+    network: "youtube" as const,
     label: "YouTube · cultos ao vivo",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -26,6 +29,7 @@ const SOCIAL_LINKS = [
   },
   {
     href: LINKS.site,
+    network: "site" as const,
     label: "Site oficial · igrejasemear.com.br",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -37,6 +41,7 @@ const SOCIAL_LINKS = [
   },
   {
     href: LINKS.maps,
+    network: "maps" as const,
     label: "Como chegar · abre no Google Maps",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -63,9 +68,10 @@ export function Footer() {
           </p>
           <div className={styles.social}>
             {SOCIAL_LINKS.map((social) => (
-              <a
+              <TrackedSocialLink
                 key={social.href}
                 href={social.href}
+                network={social.network}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="smLift smIcon"
@@ -73,7 +79,7 @@ export function Footer() {
                 title={social.label.split(" · ")[0]}
               >
                 {social.icon}
-              </a>
+              </TrackedSocialLink>
             ))}
           </div>
         </div>

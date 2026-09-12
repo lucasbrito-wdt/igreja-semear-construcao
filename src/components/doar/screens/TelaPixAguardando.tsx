@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { formatBRL } from "@/lib/content";
 import { useAutoFocus, formatMinutosSegundos } from "../useAutoFocus";
@@ -8,6 +8,7 @@ import { useCopyToClipboard } from "../useCopyToClipboard";
 import { usePixPolling } from "../usePixPolling";
 import { usePixRevealFx } from "../fx/usePixRevealFx";
 import type { DoacaoResponse } from "../types";
+import { trackPixCopyCode, trackPixExpired, trackPixPollingError } from "@/lib/analytics/events";
 import styles from "./Ticket.module.css";
 
 const TOTAL_BLOCOS = 16;
@@ -37,6 +38,22 @@ export function TelaPixAguardando({
   );
 
   const progresso = Math.max(0, Math.min(100, (segundosRestantes / segundosTotais) * 100));
+
+  // pix_expired e pix_polling_error disparam no maximo uma vez por tela —
+  // guard em ref para nao repetir a cada tick do polling/contagem.
+  const expiradoTrackedRef = useRef(false);
+  useEffect(() => {
+    if (!expirado || expiradoTrackedRef.current) return;
+    expiradoTrackedRef.current = true;
+    trackPixExpired(doacao.valor);
+  }, [expirado, doacao.valor]);
+
+  const erroConexaoTrackedRef = useRef(false);
+  useEffect(() => {
+    if (!erroConexao || erroConexaoTrackedRef.current) return;
+    erroConexaoTrackedRef.current = true;
+    trackPixPollingError();
+  }, [erroConexao]);
 
   return (
     <div className={styles.page} data-testid="tela-pix">
@@ -87,7 +104,10 @@ export function TelaPixAguardando({
                 type="button"
                 data-testid="pix-copiar"
                 className={`${styles.copyBtn} ${copiado ? styles.copied : ""}`}
-                onClick={() => copiar(pix.copia_e_cola, codigoRef.current)}
+                onClick={() => {
+                  copiar(pix.copia_e_cola, codigoRef.current);
+                  trackPixCopyCode(doacao.valor);
+                }}
               >
                 {copiado ? "Copiado" : "Copiar código"}
               </button>

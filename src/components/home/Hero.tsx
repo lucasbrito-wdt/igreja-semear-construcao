@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./Hero.module.css";
 import { formatBRL } from "@/lib/content";
 import type { CampaignStats } from "@/lib/campaign/types";
-import { TransitionLink } from "@/components/fx/TransitionLink";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 
 type HeroProps = {
   stats: CampaignStats;
@@ -11,7 +11,7 @@ type HeroProps = {
 /** Secao de abertura: fachada em Ken Burns, headline e indicadores da campanha. */
 export function Hero({ stats }: Readonly<HeroProps>) {
   return (
-    <section className={`smHeroSec ${styles.hero}`}>
+    <section className={`smHeroSec ${styles.hero}`} data-ga-section="hero">
       <div className={styles.bgWrap} data-fx="hero-bg">
         <Image
           src="/images/fachada.jpg"
@@ -40,12 +40,25 @@ export function Hero({ stats }: Readonly<HeroProps>) {
           de segunda a sábado.
         </p>
         <div className={`smR3 smBtnRow ${styles.btnRow}`}>
-          <TransitionLink href="/doar" className={`smLift ${styles.primaryCta}`} data-fx="magnetic">
+          <TrackedLink
+            href="/doar"
+            ctaId="hero_doar"
+            ctaLabel="Doar agora"
+            ctaLocation="hero"
+            className={`smLift ${styles.primaryCta}`}
+            data-fx="magnetic"
+          >
             Doar agora
-          </TransitionLink>
-          <a href="#projeto" className={`smLift ${styles.secondaryCta}`}>
+          </TrackedLink>
+          <TrackedLink
+            href="#projeto"
+            ctaId="hero_ver_projeto"
+            ctaLabel="Ver o projeto"
+            ctaLocation="hero"
+            className={`smLift ${styles.secondaryCta}`}
+          >
             Ver o projeto
-          </a>
+          </TrackedLink>
         </div>
         <div className={`smR4 smHero ${styles.stats}`}>
           <div>

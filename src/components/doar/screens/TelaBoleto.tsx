@@ -6,6 +6,7 @@ import { formatBRL } from "@/lib/content";
 import { useAutoFocus } from "../useAutoFocus";
 import { useCopyToClipboard } from "../useCopyToClipboard";
 import type { DoacaoResponse } from "../types";
+import { trackBoletoCopyLine, trackBoletoOpenPdf } from "@/lib/analytics/events";
 import styles from "./Ticket.module.css";
 
 function formatDataBR(iso: string): string {
@@ -57,7 +58,10 @@ export function TelaBoleto({ doacao }: { doacao: DoacaoResponse }) {
           <button
             type="button"
             className={`${styles.copyBtn} ${copiado ? styles.copied : ""}`}
-            onClick={() => copiar(boleto.linha_digitavel, linhaRef.current)}
+            onClick={() => {
+              copiar(boleto.linha_digitavel, linhaRef.current);
+              trackBoletoCopyLine(doacao.valor);
+            }}
           >
             {copiado ? "Copiado" : "Copiar linha"}
           </button>
@@ -65,7 +69,13 @@ export function TelaBoleto({ doacao }: { doacao: DoacaoResponse }) {
 
         {boletoUrl && (
           <div className={styles.btnRow}>
-            <a href={boletoUrl} target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+            <a
+              href={boletoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.btnPrimary}
+              onClick={() => trackBoletoOpenPdf(doacao.valor)}
+            >
               Abrir boleto (PDF)
             </a>
           </div>

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import styles from "../DoacaoForm.module.css";
 import { useSelectionMorphFx } from "../fx/useFormMicroFx";
 import type { DonationFormState } from "../useDonationForm";
+import { trackSelectFrequencia } from "@/lib/analytics/events";
 
 const NOTA_UNICA =
   "Uma contribuição pontual, no valor que você definir. Se preferir sustentar o cronograma mês a mês, escolha a doação mensal.";
@@ -30,14 +31,20 @@ export function FrequenciaStep({ form }: { form: DonationFormState }) {
           ativo={form.frequencia === "unica"}
           titulo="Doação única"
           descricao="Uma contribuição agora"
-          onClick={() => form.setFrequencia("unica")}
+          onClick={() => {
+            form.setFrequencia("unica");
+            trackSelectFrequencia("unica");
+          }}
         />
         <FreqButton
           testId="freq-mensal"
           ativo={form.frequencia === "mensal"}
           titulo="Doação mensal"
           descricao="Sustenta o cronograma da obra"
-          onClick={() => form.setFrequencia("mensal")}
+          onClick={() => {
+            form.setFrequencia("mensal");
+            trackSelectFrequencia("mensal");
+          }}
         />
       </div>
       <p className={styles.hint}>{form.frequencia === "mensal" ? NOTA_MENSAL : NOTA_UNICA}</p>
