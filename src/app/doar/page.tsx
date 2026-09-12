@@ -3,13 +3,32 @@ import type { Metadata } from "next";
 import { DoacaoFlow } from "@/components/doar/DoacaoFlow";
 import { getCampaignStats } from "@/lib/campaign/stats";
 import type { Frequencia } from "@/components/doar/types";
+import { SEO, SITE_NAME, buildDoarBreadcrumbJsonLd, serializeJsonLd } from "@/lib/seo";
 import styles from "./page.module.css";
 
+// openGraph/twitter sao mesclados de forma rasa entre segmentos (o objeto do
+// filho substitui o do pai por inteiro), entao repetimos os campos fixos
+// (type, locale, siteName, card) para nao perde-los na pagina /doar.
 export const metadata: Metadata = {
-  title: "Doar | Igreja Semear",
-  description:
-    "Escolha a frequência, o valor e a forma de pagamento da sua doação para a construção do novo templo da Igreja Semear.",
+  title: SEO.doar.title,
+  description: SEO.doar.description,
+  alternates: { canonical: "/doar" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/doar",
+    siteName: SITE_NAME,
+    title: SEO.doar.ogTitle,
+    description: SEO.doar.ogDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SEO.doar.ogTitle,
+    description: SEO.doar.ogDescription,
+  },
 };
+
+const breadcrumbJsonLd = buildDoarBreadcrumbJsonLd();
 
 const VALOR_MIN = 10;
 const VALOR_MAX = 100000;
@@ -41,6 +60,10 @@ export default async function DoarPage({
         frequenciaInicial={parseFrequencia(params.freq)}
         valorInicial={parseValorInicial(params.valor)}
         campaignStats={campaignStats}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
       />
     </main>
   );

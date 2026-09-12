@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FxProvider } from "@/components/fx/FxProvider";
 import { Preloader } from "@/components/fx/Preloader";
+import { SITE_URL, SITE_NAME, SEO, KEYWORDS, buildJsonLd, serializeJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -15,15 +16,23 @@ const archivo = Archivo({
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const heroDescription =
-  "O novo templo da Igreja Semear já tem terreno e fundação prontos. Agora é a estrutura que sobe — pilares, lajes e a cobertura do auditório — e é o que a sua doação constrói. 1.500 lugares, salas próprias para as crianças e um espaço aberto ao bairro de segunda a sábado.";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Cada tijolo é uma semente | Igreja Semear",
-  description: heroDescription,
-  alternates: { canonical: siteUrl },
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SEO.home.title,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SEO.home.description,
+  keywords: KEYWORDS,
+  applicationName: SITE_NAME,
+  authors: [{ name: "Igreja Batista Semear" }],
+  creator: "Igreja Batista Semear",
+  publisher: "Igreja Batista Semear",
+  category: "religion",
+  formatDetection: {
+    telephone: false,
+  },
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -36,19 +45,20 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Cada tijolo é uma semente | Igreja Semear",
-    description: heroDescription,
-    url: siteUrl,
-    siteName: "Igreja Semear",
-    locale: "pt_BR",
     type: "website",
-    images: [{ url: "/images/fachada.jpg" }],
+    locale: "pt_BR",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SEO.home.ogTitle,
+    description: SEO.home.ogDescription,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cada tijolo é uma semente | Igreja Semear",
-    description: heroDescription,
-    images: ["/images/fachada.jpg"],
+    title: SEO.home.ogTitle,
+    description: SEO.home.ogDescription,
+  },
+  appleWebApp: {
+    title: "Semear",
   },
 };
 
@@ -59,19 +69,7 @@ export const viewport: Viewport = {
   themeColor: "#0e8a7d",
 };
 
-// Organization Schema Markup
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Igreja Semear",
-  url: siteUrl,
-  logo: `${siteUrl}/images/logo-mark.png`,
-  description: heroDescription,
-  sameAs: [
-    "https://www.instagram.com/igrejasemear/",
-    "https://www.youtube.com/c/IgrejaSemear"
-  ]
-};
+const jsonLd = buildJsonLd();
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -86,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </div>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
         {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
       </body>
