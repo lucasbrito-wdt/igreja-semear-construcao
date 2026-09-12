@@ -193,7 +193,7 @@ export const CULTOS: Culto[] = [
 
 export const CONTATOS = {
   email: "igrejabatistasemeargba@gmail.com",
-  telefone: "(83) 8856-4852",
+  telefone: "(83) 98856-4852",
   endereco: "Av. Juscelino Kubitschek de Oliveira, S/N",
   bairro: "Canal do Juá — Guarabira/PB",
   cnpj: "32.703.146/0001-90",
