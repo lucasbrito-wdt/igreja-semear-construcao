@@ -107,9 +107,10 @@ Todos atrás de `prefers-reduced-motion` (nada inicializa com `reduce`, AC-U4). 
 | Refactor: Client Asaas com timeout global | api | timeout 30s adicionado |
 | Auditoria de segurança do backend | api | docs/security-audit-api.md |
 | Correções Low da auditoria do front (L-11, L-12, L-13) | front | .gitignore, next 16.3.5, help text |
+| Mitigações de segurança Crítica e Altas da API (C-01, H-01 a H-04) | api | Telescope, throttle por IP/doc, proxy, spoofing webhook |
 
 ### Pendente
-- Tratar issues apontadas no `docs/security-audit-api.md`.
+- Tratar issues Medium/Low apontadas no `docs/security-audit-api.md`.
 - Deploy: ver checklist acima.
 
 ### Dívidas registradas
