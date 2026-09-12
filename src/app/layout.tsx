@@ -35,9 +35,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: "/images/logo-mark.png",
-  },
   openGraph: {
     title: "Cada tijolo é uma semente | Igreja Semear",
     description: heroDescription,
