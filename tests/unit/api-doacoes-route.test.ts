@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("botid/server", () => ({
-  checkBotId: vi.fn(),
-}));
-
-import { checkBotId } from "botid/server";
 import { POST } from "@/app/api/doacoes/route";
 
 const BASE_BODY = {
@@ -34,7 +29,6 @@ describe("POST /api/doacoes", () => {
     vi.stubEnv("CAMPAIGN_SLUG", "templo");
     vi.stubEnv("CAMPAIGN_PROXY_TOKEN", "proxy-secret");
     vi.stubGlobal("fetch", vi.fn());
-    vi.mocked(checkBotId).mockReset();
   });
 
   afterEach(() => {
@@ -43,17 +37,7 @@ describe("POST /api/doacoes", () => {
     vi.restoreAllMocks();
   });
 
-  it("AC-N1 GIVEN bot WHEN POST /api/doacoes THEN 403 sem chamar a API", async () => {
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: true } as never);
-
-    const res = await POST(makeRequest(BASE_BODY));
-
-    expect(res.status).toBe(403);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  it("AC-N2 GIVEN requisicao humana WHEN POST THEN encaminha com X-Proxy-Token e X-Donor-Ip do primeiro IP de x-forwarded-for", async () => {
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
+  it("AC-N2 GIVEN requisicao valida WHEN POST THEN encaminha com X-Proxy-Token e X-Donor-Ip do primeiro IP de x-forwarded-for", async () => {
     vi.mocked(global.fetch).mockResolvedValue(
       new Response(JSON.stringify({ id: "abc" }), { status: 201 })
     );
@@ -72,7 +56,6 @@ describe("POST /api/doacoes", () => {
   });
 
   it("AC-N2 GIVEN sem x-forwarded-for WHEN POST THEN usa x-real-ip", async () => {
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
     vi.mocked(global.fetch).mockResolvedValue(
       new Response(JSON.stringify({ id: "abc" }), { status: 201 })
     );
@@ -87,7 +70,6 @@ describe("POST /api/doacoes", () => {
   it.each([201, 402, 422])(
     "AC-N3 GIVEN API responde %i WHEN POST THEN repassa status e corpo",
     async (status) => {
-      vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
       const upstreamJson = { message: `resposta ${status}` };
       vi.mocked(global.fetch).mockResolvedValue(
         new Response(JSON.stringify(upstreamJson), { status })
@@ -101,7 +83,6 @@ describe("POST /api/doacoes", () => {
   );
 
   it("AC-N4 GIVEN API 5xx WHEN POST THEN 502 com mensagem generica sem vazar corpo da API", async () => {
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
     vi.mocked(global.fetch).mockResolvedValue(
       new Response(JSON.stringify({ segredo: "detalhe interno da API" }), {
         status: 500,
@@ -118,7 +99,6 @@ describe("POST /api/doacoes", () => {
   });
 
   it("AC-N4 GIVEN timeout/AbortError no fetch WHEN POST THEN 502", async () => {
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
     vi.mocked(global.fetch).mockRejectedValue(
       Object.assign(new Error("timeout"), { name: "AbortError" })
     );
@@ -131,7 +111,6 @@ describe("POST /api/doacoes", () => {
   it("AC-N4 GIVEN erro 500 com numero de cartao no body WHEN POST THEN nao loga o numero do cartao", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
     vi.mocked(global.fetch).mockResolvedValue(
       new Response(JSON.stringify({ message: "erro interno" }), { status: 500 })
     );

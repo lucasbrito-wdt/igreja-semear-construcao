@@ -1,7 +1,5 @@
 import { isIP } from "node:net";
 
-import { checkBotId } from "botid/server";
-
 import {
   campaignUpstreamUrl,
   isValidUuid,
@@ -48,11 +46,6 @@ export async function POST(request: Request): Promise<Response> {
       { message: "Identificador de idempotência inválido." },
       { status: 400 }
     );
-  }
-
-  const botCheck = await checkBotId();
-  if (botCheck.isBot) {
-    return Response.json({ message: "Requisição bloqueada." }, { status: 403 });
   }
 
   const body = await request.text();

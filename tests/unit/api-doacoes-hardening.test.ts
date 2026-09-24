@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("botid/server", () => ({
-  checkBotId: vi.fn(),
-}));
-
-import { checkBotId } from "botid/server";
 import { POST } from "@/app/api/doacoes/route";
 
 const BASE_BODY = {
@@ -36,8 +31,6 @@ describe("POST /api/doacoes — hardening (auditoria front)", () => {
     vi.stubEnv("CAMPAIGN_SLUG", "templo");
     vi.stubEnv("CAMPAIGN_PROXY_TOKEN", "proxy-secret");
     vi.stubGlobal("fetch", vi.fn());
-    vi.mocked(checkBotId).mockReset();
-    vi.mocked(checkBotId).mockResolvedValue({ isBot: false } as never);
   });
 
   afterEach(() => {
